@@ -1,4 +1,4 @@
-# mafia-web
+# mafia-frontend
 
 ## Project setup
 ```
