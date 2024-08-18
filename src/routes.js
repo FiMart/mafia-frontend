@@ -9,44 +9,70 @@ import {createRouter,createWebHistory} from 'vue-router';
 
 const routes = [
     {
+        path: '/',
         name:'Home',
         component: Home,
-        path: '/'
+        meta : {
+            title: "Home"
+        }
     },
     {
+        path: '/login',
         name:'Login',
         component: Login,
-        path: '/login'
+        meta : {
+            title: "Login"
+        }
     },
     {
+        path: '/register',
         name:'Register',
         component: Register,
-        path: '/register'
+        meta : {
+            title: "Register"
+        }
     },
     {
+        path: '/dashboard',
         name:'Dashboard',
         component: Dashboard,
-        path: '/dashboard'
+        meta : {
+            title: "Dashboard"
+        }
     },
     {
+        path: '/buysell',
         name:'Buysell',
         component: Buysell,
-        path: '/buysell'
+        meta : {
+            title: "Buysell"
+        }
     },
     {
+        path: '/abouttax',
         name:'Abouttax',
         component: Abouttax,
-        path: '/abouttax'
+        meta : {
+            title: "Abouttax"
+        }
     },
     {
+        path: '/profile',
         name:'Profile',
         component: Profile,
-        path: '/profile'
+        meta : {
+            title: "Profile"
+        }
     },
 ]
 const router = createRouter({
     history: createWebHistory(),
     routes
+});
+
+router.beforeEach((to, from, next) =>{
+    document.title = `${to.meta.title}`;
+    next();
 })
 
 export default router
