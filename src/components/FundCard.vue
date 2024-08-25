@@ -1,5 +1,5 @@
 <template>
-<div class="flex bg-gray-200 rounded-lg shadow-md overflow-hidden" :class="cardSize">
+<div @click="navigateToSummary" class="flex bg-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer" :class="cardSize">
     <!-- Left color band -->
     <div :class="`w-4 ${leftColor}`"></div>
     <div class="p-4 flex flex-col w-full">
@@ -60,6 +60,9 @@ export default {
                 maximumFractionDigits: 2
             });
         },
+        navigateToSummary() {
+            this.$emit('card-clicked', this.title);
+        }
     },
 };
 </script>

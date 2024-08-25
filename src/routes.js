@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard.vue";
 import Buysell from "./pages/Buysell.vue";
 import Abouttax from "./pages/Abouttax.vue";
 import Profile from "./pages/Profile.vue";
+import Summary from "./pages/Summary.vue";
 import {createRouter,createWebHistory} from 'vue-router';
 
 const routes = [
@@ -64,6 +65,15 @@ const routes = [
             title: "Profile"
         }
     },
+    {
+        path: '/summary', //Bug!! (path: '/summary/:fundType',) Ex./summary/dashboard , /summary/profile ETC.
+        name:'Summary',
+        component: Summary,
+        meta : {
+            title: "Summary"
+        },
+        props: true
+    }
 ]
 const router = createRouter({
     history: createWebHistory(),
