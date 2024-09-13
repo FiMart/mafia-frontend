@@ -1,7 +1,7 @@
 <template>
   <div class="register-page flex flex-col items-center justify-center min-h-screen bg-green-500">
     <div class="register-container bg-white p-8 rounded shadow-md w-96">
-      <img src="@/assets/logo1.png" alt="icon-mafia" class="navbar-icon h-20 mx-2">
+      <img src="@/assets/icon/logo1.png" alt="icon-mafia" class="navbar-icon h-20 mx-2">
       <h1 class="text-2xl font-semibold mb-6 text-center">Register</h1>
       <input v-model="username" placeholder="Enter Username" class="input mb-4" />
       <input v-model="email" placeholder="Enter Email" class="input mb-4" />

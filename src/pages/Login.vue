@@ -1,7 +1,7 @@
 <template>
   <div class="login-page flex flex-col items-center justify-center h-screen bg-green-500">
     <div class="login-container bg-white p-8 rounded shadow-md w-96">
-      <img src="@/assets/logo1.png" alt="icon-mafia" class="navbar-icon h-20  mx-2">
+      <img src="@/assets/icon/logo1.png" alt="icon-mafia" class="navbar-icon h-20  mx-2">
       <h1 class="text-2xl font-semibold mb-4 text-center">Login</h1>
       <input v-model="username" placeholder="Enter Username" class="input mb-4" />
       <input v-model="password" placeholder="Enter Password" class="input mb-6" type="password" />
