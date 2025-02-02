@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-100">
-    <!-- นำ Navbar มาแสดง -->
-    <Navbar />
+    <!-- นำ NavbarBefore มาแสดง -->
+    <NavbarBefore />
     <main class="container mx-auto py-10">
       <h1 class="text-2xl font-bold mb-6 text-white">แนะนำกองทุนแบบจัดอันดับ</h1>
       <div class="mb-4 relative">
@@ -32,7 +32,7 @@
         <tbody>
           <tr v-for="item in sortedData" :key="item.id" class="odd:bg-gray-100 even:bg-white hover:bg-gray-300">
             <td 
-              @click="goToBuySell(item.name)" 
+              @click="goToLogin(item.name)" 
               class="py-2 px-4 text-center hover:underline cursor-pointer hover:text-green-500"
             >
               {{ item.name }}
@@ -66,11 +66,11 @@
 </template>
 
 <script>
-import Navbar from "@/components/Navbar";
+import NavbarBefore from "@/components/NavbarBefore";
 export default {
-  name: "Home",
+  name: "HomeBefore",
   components: {
-    Navbar,
+    NavbarBefore,
   },
   data() {
     return {
@@ -84,7 +84,7 @@ export default {
         category: 'ความเสี่ยง',
         oneYearReturn: 'ตอบแทนย้อน 1 ปี (%)',
         fiveYearReturn: 'ตอบแทนย้อน 5 ปี (%) (Annualized)',
-        tenYearReturn: 'ผลตอบแทนย้อน 10 ปี (%) (Annualized)',
+        tenYearReturn: 'ตอบแทนย้อน 10 ปี (%) (Annualized)',
         standardDeviation: 'SD (จากข้อมูล 1 ปี)',
         sharpRatio: 'Sharp Ratio (ของปีนั้น)'
       },
@@ -199,7 +199,7 @@ export default {
           standardDeviation: '12.5',
           sharpRatio: '0.85'
         },
-      ]
+      ],
     };
   },
   computed: {
@@ -237,9 +237,9 @@ export default {
         this.sortOrder = 1;
       }
     },
-    goToBuySell(name) {
-      this.$router.push(`/buy-sell?name=${name}`);
-    },
+    goToLogin(name) {
+      this.$router.push(`/login`);
+    }
   },
 };
 </script>
