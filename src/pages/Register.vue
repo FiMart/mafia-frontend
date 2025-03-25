@@ -1,0 +1,495 @@
+<template>
+    <div>
+        <div class="register-page flex flex-col items-center justify-center min-h-screen bg-cover bg-center">
+            <!-- Loading Spinner -->
+            <Loading v-if="isLoading" message="กำลังดำเนินการ..." class="fixed inset-0 bg-black bg-opacity-80 z-50" />
+
+            <!-- Registration Form Container -->
+            <div class="register-container bg-white backdrop-blur-sm p-6 rounded-lg shadow-md w-96">
+                <div class="flex justify-center mb-6">
+                    <img src="@/assets/icon/logo1.png" alt="MAFIA Logo" class="h-16" />
+                </div>
+                <h1 class="text-xl font-semibold text-center mb-6">ลงทะเบียนเข้าใช้งาน</h1>
+
+                <!-- เปลี่ยนเป็น @submit.prevent="onRegister" -->
+                <form @submit.prevent="onRegister" class="space-y-4">
+                    <input v-model="username" type="text" placeholder="ชื่อผู้ใช้"
+                        class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                    <input v-model="email" type="email" placeholder="อีเมล"
+                        class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                    <div class="relative">
+                        <input v-model="password" :type="showPassword ? 'text' : 'password'" placeholder="รหัสผ่าน"
+                            class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                        <button type="button" @click="togglePassword"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <!-- ไอคอนแสดง/ซ่อนรหัสผ่าน -->
+                            <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 
+                       18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 
+                       11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 
+                       3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="relative">
+                        <input v-model="confirmPassword" :type="showPassword ? 'text' : 'password'"
+                            placeholder="ยืนยันรหัสผ่าน"
+                            class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                        <button type="button" @click="togglePassword"
+                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <!-- ไอคอนแสดง/ซ่อนรหัสผ่าน -->
+                            <svg v-if="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                            <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 
+                       18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 
+                       11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 
+                       3 0 1 1-4.24-4.24" />
+                                <line x1="1" y1="1" x2="23" y2="23" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <input v-model="telephone_number" @input="validatetelephone_number" type="tel" maxlength="10"
+                        placeholder="เบอร์โทรศัพท์"
+                        class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        :class="{ 'border-red-500': phoneError }" />
+                    <span v-if="phoneError" class="text-red-500 text-sm ml-2">
+                        {{ phoneError }}
+                    </span>
+
+                    <div class="relative">
+                        <input v-model="birthday" type="date" placeholder="วัน/เดือน/ปีเกิด"
+                            class="w-full px-3 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                    </div>
+
+                    <!-- ตัวอย่าง ถ้ายังไม่ใช้ field อาชีพ/สถานะ ให้คอมเมนต์ไว้ได้ -->
+                    <!--
+            <select v-model="maritalStatus" ...>
+              ...
+            </select>
+            <select v-model="userType" ...>
+              ...
+            </select>
+            -->
+
+                    <button type="submit"
+                        class="w-full bg-teal-600 text-white py-2 rounded-full hover:bg-teal-800 transition-colors font-bold">
+                        ลงทะเบียน
+                    </button>
+                </form>
+
+                <p class="text-center mt-4 text-sm text-orange-400">
+                    <span>เป็นสมาชิกอยู่แล้ว? </span>
+                    <router-link to="/login" class="text-teal-600 hover:underline">
+                        เข้าสู่ระบบ
+                    </router-link>
+                </p>
+            </div>
+        </div>
+
+        <!-- Popup Survey (ถ้าต้องการเปิดหลังจาก Register + Login สำเร็จ) -->
+        <transition enter-active-class="transition ease-out duration-300"
+            enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
+            leave-active-class="transition ease-in duration-200" leave-from-class="transform opacity-100 scale-100"
+            leave-to-class="transform opacity-0 scale-95">
+            <div v-if="isSurveyVisible"
+                class="survey-popup-wrapper fixed inset-0 flex items-center justify-center z-50">
+                <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                <SurveyExPopUp :isVisible="isSurveyVisible" :userData="getUserData" @confirm="handleSurveyConfirm"
+                    @close="closeSurvey" class="relative" />
+            </div>
+        </transition>
+
+        <!-- Toast Notifications -->
+        <transition enter-active-class="transform ease-out duration-300 transition"
+            enter-from-class="translate-y-[-100%] opacity-0" enter-to-class="translate-y-0 opacity-100"
+            leave-active-class="transition ease-in duration-200" leave-from-class="opacity-100"
+            leave-to-class="opacity-0">
+            <div v-if="toast.show" :class="[
+                'fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center px-4 py-3 rounded-lg text-white shadow-lg z-50',
+                toast.type === 'success' ? 'bg-green-500' : 'bg-red-500',
+            ]">
+                <svg v-if="toast.type === 'success'" class="w-6 h-6 mr-2" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <svg v-else class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                {{ toast.message }}
+            </div>
+        </transition>
+    </div>
+</template>
+
+
+<script>
+import SurveyExPopUp from "@/components/SurveyExPopUp.vue";
+import Loading from "@/components/Loading.vue";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
+
+export default {
+    name: "Register",
+    components: {
+        SurveyExPopUp,
+        Loading,
+    },
+    setup() {
+        const toast = useToast();
+        const router = useRouter(); // ใช้ router push หลัง login เสร็จ
+        return {
+            toast,
+            router
+        };
+    },
+    data() {
+        return {
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            telephone_number: "",
+            birthday: "",
+            // ... ฟิลด์อื่น ๆ ...
+            showPassword: false,
+            isSurveyVisible: false,
+            isLoading: false,
+            phoneError: "",
+        };
+    },
+    computed: {
+        getUserData() {
+            return {
+                username: this.username,
+                email: this.email,
+                birthday: this.birthday,
+                telephone_number: this.telephone_number,
+                password: this.password,
+            };
+        },
+    },
+    methods: {
+        togglePassword() {
+            this.showPassword = !this.showPassword;
+        },
+
+        // เมื่อผู้ใช้คลิกปุ่ม Register
+        async onRegister() {
+            // ตรวจสอบความถูกต้องของฟอร์ม
+            if (!this.validateForm()) return;
+
+            // ถ้าผ่านให้เรียก handleRegister เลย
+            this.isLoading = true;
+            try {
+                // เรียก register => login => เสร็จแล้วค่อยไป Survey
+                await this.handleRegister();
+                this.toast.success("ลงทะเบียนสำเร็จ", {
+                    position: "top-center",
+                    timeout: 1000,
+                    toastClassName: "custom-toast-center",
+                });
+            } catch (error) {
+                console.error("Registration or Login failed:", error);
+                this.toast.error("เกิดข้อผิดพลาดในการลงทะเบียน", {
+                    position: "top-center",
+                    timeout: 1000,
+                    toastClassName: "custom-toast-center",
+                });
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
+        validateForm() {
+            // ตัวอย่างการเช็กข้อมูลเบื้องต้น
+            if (
+                !this.username ||
+                !this.email ||
+                !this.password ||
+                !this.confirmPassword ||
+                !this.telephone_number ||
+                !this.birthday
+            ) {
+                this.toast.error("กรุณากรอกข้อมูลให้ครบ", {
+                    position: "top-center",
+                    timeout: 1000,
+                    toastClassName: "custom-toast-center",
+                });
+                return false;
+            }
+
+            if (!this.validatetelephone_number()) {
+                this.toast.error(this.phoneError, {
+                    position: "top-center",
+                    timeout: 1000,
+                    toastClassName: "custom-toast-center",
+                });
+                return false;
+            }
+
+            if (this.password !== this.confirmPassword) {
+                this.toast.error("รหัสผ่านไม่ตรงกัน", {
+                    position: "top-center",
+                    timeout: 1000,
+                    toastClassName: "custom-toast-center",
+                });
+                return false;
+            }
+            return true;
+        },
+
+        validatetelephone_number() {
+            // ลบ non-digit ก่อน
+            this.telephone_number = this.telephone_number.replace(/\D/g, "");
+
+            // เช็กว่ากรอกเบอร์หรือไม่
+            if (!this.telephone_number) {
+                this.phoneError = "กรุณากรอกเบอร์โทรศัพท์";
+                return false;
+            }
+
+            // ต้องขึ้นต้นด้วย 0
+            if (!this.telephone_number.startsWith("0")) {
+                this.phoneError = "เบอร์โทรศัพท์ต้องขึ้นต้นด้วย 0";
+                return false;
+            }
+
+            // ยาว 10 หลัก
+            if (this.telephone_number.length !== 10) {
+                this.phoneError = "เบอร์โทรศัพท์ต้องมี 10 หลัก";
+                return false;
+            }
+
+            this.phoneError = "";
+            return true;
+        },
+
+        // เดิม: handleSurveyConfirm, showSurvey ฯลฯ ไม่จำเป็นต้องเรียกก่อน Register
+        // เปลี่ยน Flow เป็น Register->Login->Survey
+
+        async handleRegister() {
+            // เรียก API register -> ถ้าสำเร็จ -> เรียก login -> ถ้าสำเร็จ -> ไป survey
+            const registrationData = {
+                ...this.getUserData,
+                password: this.password,
+                // ถ้ามี surveyData ไว้ทีหลัง
+            };
+
+            // 1) Register
+            await this.register(registrationData);
+
+            // 2) ถ้าสำเร็จแล้ว login ทันที
+            await this.login(registrationData);
+
+            // 3) ไปหน้า Survey หรือจะเปิด Popup ก็ได้
+            this.isSurveyVisible = true; // ถ้าจะใช้ Popup
+            // router.push('/home') // ถ้าจะให้เด้งไปหน้าสำรวจ /survey
+        },
+
+        async register(data) {
+            try {
+                console.log("Register with data:", data);
+                const response = await fetch("/api/auth/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) {
+                    throw new Error("Registration failed");
+                }
+                return await response.json();
+            } catch (error) {
+                throw error;
+            }
+        },
+
+        async login(data) {
+            try {
+                const response = await fetch("/api/auth/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        username: data.username,
+                        password: data.password,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    let errorMessage;
+                    if (response.status == 401) {
+                        errorMessage = "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง";
+                    } else {
+                        errorMessage = "เข้าสู่ระบบล้มเหลว";
+                    }
+                    this.toast.error(errorMessage, {
+                        position: "top-center",
+                        timeout: 1000,
+                        toastClassName: "custom-toast-center",
+                    });
+                    throw new Error(errorMessage);
+                }
+
+                const dataLogin = await response.json();
+                const token = dataLogin.access_token;
+                localStorage.setItem("jwtToken", token);
+                localStorage.setItem("username", data.username);
+
+                // ดึงข้อมูลผู้ใช้
+                const response1 = await fetch(`/api/user/${data.username}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (!response1.ok) {
+                    throw new Error(`HTTP error! status: ${response1.status}`);
+                }
+                const data1 = await response1.json();
+                localStorage.setItem("email", data1.email);
+
+                // ถ้าต้องการ toast.success ก็ได้
+            } catch (error) {
+                console.error("Error during login:", error);
+                throw error;
+            }
+        },
+    },
+};
+</script>
+
+<style scoped>
+/* Basic Background Style */
+.register-page {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url("@/assets/images/bg0.jpg");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* Basic Card Animation */
+.register-container {
+    transition: all 0.3s ease;
+}
+
+.register-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Animation */
+img {
+    transition: transform 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+/* Basic Input Field Animation */
+input,
+select {
+    transition: all 0.3s ease;
+}
+
+input:focus,
+select:focus {
+    transform: scale(1.02);
+}
+
+/* Basic Button Animation */
+button {
+    transition: all 0.3s ease;
+}
+
+button:not(:disabled):hover {
+    transform: translateY(-2px);
+}
+
+button:not(:disabled):active {
+    transform: translateY(0);
+}
+
+/* Loading Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fixed {
+    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.3s ease-out;
+}
+</style>
+<style>
+.absolute svg:hover {
+    transform: translateY(-50%) scale(1.2);
+}
+
+.absolute svg {
+    transition: transform 0.3s ease;
+}
+
+.bg-opacity-80 {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.Vue-Toastification__container.top-center {
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    transform: translateY(-50%) !important;
+    top: 50% !important;
+}
+
+.custom-toast-center {
+    text-align: center !important;
+    margin: 0 auto !important;
+}
+
+.Vue-Toastification__container.top-center {
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+/* Loading Background */
+.bg-opacity-80 {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Eye Icon Animation */
+.absolute svg {
+    transition: transform 0.3s ease;
+}
+
+.absolute svg:hover {
+    transform: translateY(-50%) scale(1.2);
+}
+</style>
