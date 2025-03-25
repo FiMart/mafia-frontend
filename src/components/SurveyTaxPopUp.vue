@@ -1,10 +1,13 @@
 <template>
   <div class="fixed inset-0 flex items-center justify-center">
+<<<<<<< HEAD
     <!-- Add Loading overlay -->
     <Loading v-if="isLoading" 
             message="กำลังเปิดแบบสอบถามภาษี..." 
             class="fixed inset-0 bg-black bg-opacity-90 z-50" />
 
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
     <div class="bg-white p-6 rounded-lg shadow-lg w-[400px] text-center">
       <div class="flex justify-center mb-4">
         <div class="bg-blue-100 p-4 rounded-full">
@@ -28,16 +31,23 @@
       </p>
       <button
         @click="submitSurvey"
+<<<<<<< HEAD
         :disabled="isLoading"
         class="w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-800 transition duration-200 disabled:opacity-50"
       >
         {{ isLoading ? 'กำลังโหลด...' : 'กรอกข้อมูลภาษี' }}
+=======
+        class="w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-800 transition duration-200"
+      >
+        กรอกข้อมูลภาษี
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
       </button>
     </div>
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
 import Loading from './Loading.vue';
 
 export default {
@@ -60,12 +70,20 @@ export default {
       } finally {
         this.isLoading = false;
       }
+=======
+export default {
+  name: "SurveyTaxPopUp",
+  methods: {
+    submitSurvey() {
+      this.$router.push('/survey-tax');
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
     },
   },
 };
 </script>
 
 <style scoped>
+<<<<<<< HEAD
 /* Basic Image Style */
 img {
   height: 96px;
@@ -138,5 +156,11 @@ button:not(:disabled):active {
 
 .bg-white {
   animation: fadeIn 0.3s ease-out;
+=======
+/* Adjust the size as needed */
+img {
+  height: 96px; /* Example height */
+  width: 96px;  /* Example width */
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 }
 </style>

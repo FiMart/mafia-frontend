@@ -1,10 +1,13 @@
 <template>
   <div v-if="isVisible" class="fixed inset-0 flex items-center justify-center">
+<<<<<<< HEAD
     <!-- Add Loading overlay -->
     <Loading v-if="isLoading" 
             message="กำลังเปิดแบบประเมิน..." 
             class="fixed inset-0 bg-black bg-opacity-90 z-50" />
 
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
     <div class="bg-white rounded-lg shadow-lg p-6 w-[90%] max-w-md mx-4">
       <div class="flex flex-col items-center">
         <!-- Clipboard Icon -->
@@ -56,6 +59,7 @@
           </div>
         </div>
 
+<<<<<<< HEAD
         <!-- Button with loading state -->
         <button
           @click="navigateToSurvey"
@@ -63,6 +67,14 @@
           class="w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-800 transition duration-200 disabled:opacity-50"
         >
           {{ isLoading ? 'กำลังโหลด...' : 'ทำแบบประเมิน' }}
+=======
+        <!-- Button -->
+        <button
+          @click="navigateToSurvey"
+          class="w-full py-2 bg-teal-600 text-white rounded-full hover:bg-teal-800 transition duration-200"
+        >
+          ทำแบบประเมิน
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
         </button>
       </div>
     </div>
@@ -70,12 +82,16 @@
 </template>
 
 <script setup>
+<<<<<<< HEAD
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Loading from './Loading.vue';
 
 const isLoading = ref(false);
 const router = useRouter();
+=======
+import { useRouter } from 'vue-router';
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 
 const props = defineProps({
   isVisible: {
@@ -85,6 +101,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['confirm']);
+<<<<<<< HEAD
 
 const navigateToSurvey = async () => {
   isLoading.value = true;
@@ -96,11 +113,19 @@ const navigateToSurvey = async () => {
   } finally {
     isLoading.value = false;
   }
+=======
+const router = useRouter();
+
+const navigateToSurvey = () => {
+  emit('confirm');
+  router.push('survey-experience');
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 };
 </script>
 
 <style scoped>
 /* Adjusted styles for smaller popup */
+<<<<<<< HEAD
 .fixed {
   position: fixed;
   animation: fadeIn 0.3s ease-out;
@@ -165,4 +190,6 @@ button:not(:disabled):active {
   opacity: 0.5;
   cursor: not-allowed;
 }
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 </style>

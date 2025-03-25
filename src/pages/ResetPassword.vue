@@ -1,10 +1,13 @@
 <template>
     <div class="resetpwd-page min-h-screen flex items-center justify-center relative">
+<<<<<<< HEAD
       <!-- Update Loading Component -->
       <Loading v-if="isLoading" 
               message="กำลังเปลี่ยนรหัสผ่าน..." 
               class="fixed inset-0 bg-black bg-opacity-80 z-50" />
 
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
       <!-- Card -->
       <div class="relative bg-white p-8 rounded-lg shadow-lg w-96 z-10">
         <!-- Logo -->
@@ -15,19 +18,31 @@
         <!-- Title -->
         <h2 class="text-center text-xl font-semibold text-gray-800 mb-4">เปลี่ยนรหัสผ่าน</h2>
   
+<<<<<<< HEAD
         <!-- Form inputs with disabled state -->
+=======
+        <!-- New Password Input -->
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
         <input
           v-model="newPassword"
           type="password"
           placeholder="รหัสผ่านใหม่"
+<<<<<<< HEAD
           :disabled="isLoading"
           class="w-full p-2 border rounded-full mb-2 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50"
         />
   
+=======
+          class="w-full p-2 border rounded-full mb-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+        />
+  
+        <!-- Confirm Password Input -->
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
         <input
           v-model="confirmPassword"
           type="password"
           placeholder="ยืนยันรหัสผ่าน"
+<<<<<<< HEAD
           :disabled="isLoading"
           class="w-full p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50"
         />
@@ -45,6 +60,22 @@
             @click="goBack"
             :disabled="isLoading"
             class="flex-1 bg-orange-400 text-white py-2 rounded-full hover:bg-orange-400 transition disabled:opacity-50"
+=======
+          class="w-full p-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400"
+        />
+  
+        <!-- Buttons -->
+        <div class="mt-4 flex gap-2">
+          <button
+            @click="handleSubmit"
+            class="flex-1 bg-teal-600 text-white py-2 rounded-full hover:bg-teal-700 transition"
+          >
+            ยืนยัน
+          </button>
+          <button
+            @click="goBack"
+            class="flex-1 bg-orange-400 text-white py-2 rounded-full hover:bg-orange-400 transition"
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
           >
             ย้อนกลับ
           </button>
@@ -57,11 +88,17 @@
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
+<<<<<<< HEAD
 import Loading from '@/components/Loading.vue'
 
 const newPassword = ref('')
 const confirmPassword = ref('')
 const isLoading = ref(false)
+=======
+
+const newPassword = ref('')
+const confirmPassword = ref('')
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 const router = useRouter()
 const route = useRoute()
 const email = ref('')
@@ -71,7 +108,11 @@ const handleSubmit = async () => {
   if (!newPassword.value || !confirmPassword.value) {
     toast.error('กรุณากรอกรหัสผ่านให้ครบ', {
       position: "top-center",
+<<<<<<< HEAD
       timeout: 1000,
+=======
+      timeout: 3000,
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
       toastClassName: "custom-toast-center"
     })
     return
@@ -80,12 +121,17 @@ const handleSubmit = async () => {
   if (newPassword.value !== confirmPassword.value) {
     toast.error('รหัสผ่านไม่ตรงกัน', {
       position: "top-center",
+<<<<<<< HEAD
       timeout: 1000,
+=======
+      timeout: 3000,
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
       toastClassName: "custom-toast-center"
     })
     return
   }
 
+<<<<<<< HEAD
   isLoading.value = true
   try {
     // Simulate API call
@@ -117,6 +163,30 @@ const goBack = () => {
 
 <style scoped>
 /* Background Style */
+=======
+  try {
+    // API call to reset password
+    toast.success('เปลี่ยนรหัสผ่านสำเร็จ', {
+      position: "top-center",
+      timeout: 2000,
+      toastClassName: "custom-toast-center"
+    })
+    
+    setTimeout(() => {
+      router.push('/login')
+    }, 2000)
+  } catch (error) {
+    toast.error('เกิดข้อผิดพลาด กรุณาลองใหม่', {
+      position: "top-center",
+      timeout: 3000,
+      toastClassName: "custom-toast-center"
+    })
+  }
+}
+</script>
+
+<style>
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 .resetpwd-page {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('@/assets/images/bg0.jpg');
   background-size: cover;
@@ -124,6 +194,7 @@ const goBack = () => {
   min-height: 100vh;
 }
 
+<<<<<<< HEAD
 /* Card Animation */
 .bg-white {
   transition: all 0.3s ease;
@@ -180,6 +251,8 @@ button:not(:disabled):active {
 }
 
 /* Toast Styling */
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 .custom-toast-center {
   margin: 0 auto !important;
   text-align: center !important;

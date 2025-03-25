@@ -8,6 +8,7 @@ import "vue-toastification/dist/index.css";
 const app = createApp(App);
 app.use(router);
 app.use(Toast);
+<<<<<<< HEAD
 
 // 👇 Check token before mounting
 const checkTokenExpiry = () => {
@@ -37,4 +38,6 @@ const checkTokenExpiry = () => {
 
 checkTokenExpiry(); // Call the function
 
+=======
+>>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 app.mount('#app');
