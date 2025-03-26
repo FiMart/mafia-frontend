@@ -1,21 +1,17 @@
 <template>
-<<<<<<< HEAD
   <div class="min-h-screen flex flex-col">
     <Navbar />
     <div class="flex justify-center">
       <div class="w-full max-w-6xl px-6 py-4">
         <div class="p-6">
           <!-- Add loading component -->
-          <Loading
-            v-if="isLoading"
-            message="กำลังคำนวณข้อมูลภาษี..."
-            class="fixed inset-0 bg-black bg-opacity-80 z-50"
-          />
+          <Loading v-if="isLoading" message="กำลังคำนวณข้อมูลภาษี..."
+            class="fixed inset-0 bg-black bg-opacity-80 z-50" />
 
           <!-- Show content when not loading -->
           <div v-else class="grid grid-cols-1 gap-6">
             <!-- Header with Edit Button -->
-            <div class="flex items-center justify-between mb-4">
+            <!-- <div class="flex items-center justify-between mb-4">
               <h2 class="text-xl font-bold text-white">ข้อมูลภาษี</h2>
               <button
                 v-if="!isEditingTax"
@@ -24,7 +20,7 @@
               >
                 ✎ แก้ไขข้อมูลภาษี
               </button>
-            </div>
+            </div> -->
 
             <!-- 🔹 Income Section -->
             <div class="bg-white rounded-lg p-4 shadow-md">
@@ -35,12 +31,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">รายได้ต่อเดือน</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.monthly_income"
-                      type="number"
+                    <input v-model="taxInfo.monthly_income" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="รายได้ต่อเดือน"
-                    />
+                      placeholder="รายได้ต่อเดือน" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -51,12 +44,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">โบนัส</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.bonus_income"
-                      type="number"
+                    <input v-model="taxInfo.bonus_income" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="โบนัส"
-                    />
+                      placeholder="โบนัส" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -67,12 +57,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">รายได้อื่น ๆ</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.additional_income"
-                      type="number"
+                    <input v-model="taxInfo.additional_income" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="รายได้อื่น ๆ"
-                    />
+                      placeholder="รายได้อื่น ๆ" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -96,12 +83,9 @@
                   <div>
                     <label class="text-gray-600 font-bold">ลดหย่อนส่วนบุคคล</label>
                     <template v-if="isEditingTax">
-                      <input
-                        v-model="taxInfo.personal_deduction"
-                        type="number"
+                      <input v-model="taxInfo.personal_deduction" type="number"
                         class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                        placeholder="ลดหย่อนส่วนบุคคล"
-                      />
+                        placeholder="ลดหย่อนส่วนบุคคล" />
                     </template>
                     <template v-else>
                       <p class="output-field">
@@ -113,12 +97,9 @@
                   <div>
                     <label class="text-gray-600 font-bold">ลดหย่อนคู่สมรส</label>
                     <template v-if="isEditingTax">
-                      <input
-                        v-model="taxInfo.marital_deduction"
-                        type="number"
+                      <input v-model="taxInfo.marital_deduction" type="number"
                         class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                        placeholder="ลดหย่อนคู่สมรส"
-                      />
+                        placeholder="ลดหย่อนคู่สมรส" />
                     </template>
                     <template v-else>
                       <p class="output-field">
@@ -130,12 +111,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">ลดหย่อนภาษีจากบุตร</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.child_deduction"
-                      type="number"
+                    <input v-model="taxInfo.child_deduction" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ลดหย่อนภาษีจากบุตร"
-                    />
+                      placeholder="ลดหย่อนภาษีจากบุตร" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -144,16 +122,28 @@
                   </template>
                 </div>
 
+                <!-- ✅ ค่าฝากครรภ์และคลอดบุตร -->
+                <div>
+                  <label class="text-gray-600 font-bold">ค่าฝากครรภ์และคลอดบุตร</label>
+                  <template v-if="isEditingTax">
+                    <input v-model="taxInfo.prenatal_deduction" type="number"
+                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      placeholder="ค่าฝากครรภ์และคลอดบุตร" />
+                  </template>
+                  <template v-else>
+                    <p class="output-field">
+                      {{ formatDisplayValue(taxInfo.prenatal_deduction) }}
+                    </p>
+                  </template>
+                </div>
+
                 <!-- ✅ จำนวนพ่อแม่ที่ดูแล -->
                 <div>
                   <label class="text-gray-600 font-bold">ลดหย่อนภาษีจากพ่อแม่</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.parent_deduction"
-                      type="number"
+                    <input v-model="taxInfo.parent_deduction" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ลดหย่อนภาษีจากพ่อแม่"
-                    />
+                      placeholder="ลดหย่อนภาษีจากพ่อแม่" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -166,12 +156,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">ลดหย่อนภาษีจากผู้พิการ</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.disable_deduction"
-                      type="number"
+                    <input v-model="taxInfo.disable_deduction" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ลดหย่อนภาษีจากผู้พิการ"
-                    />
+                      placeholder="ลดหย่อนภาษีจากผู้พิการ" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -189,30 +176,11 @@
               </h3>
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="text-gray-600 font-bold">เงินสมทบประกันสังคม</label>
-                  <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.social_enterprise"
-                      type="number"
-                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เงินสมทบประกันสังคม"
-                    />
-                  </template>
-                  <template v-else>
-                    <p class="output-field">
-                      {{ formatDisplayValue(taxInfo.social_enterprise) }}
-                    </p>
-                  </template>
-                </div>
-                <div>
                   <label class="text-gray-600 font-bold">เบี้ยประกันชีวิต</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.general_life_insurance"
-                      type="number"
+                    <input v-model="taxInfo.general_life_insurance" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เบี้ยประกันชีวิต"
-                    />
+                      placeholder="เบี้ยประกันชีวิต" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -223,12 +191,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">เบี้ยประกันสุขภาพ</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.self_life_insurance"
-                      type="number"
+                    <input v-model="taxInfo.self_life_insurance" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เบี้ยประกันสุขภาพ"
-                    />
+                      placeholder="เบี้ยประกันสุขภาพ" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -239,12 +204,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">เบี้ยประกันสุขภาพพ่อแม่</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.parent_life_insurance"
-                      type="number"
+                    <input v-model="taxInfo.parent_life_insurance" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เบี้ยประกันสุขภาพพ่อแม่"
-                    />
+                      placeholder="เบี้ยประกันสุขภาพพ่อแม่" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -255,16 +217,66 @@
                 <div>
                   <label class="text-gray-600 font-bold">เบี้ยประกันบำนาญ</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.pension_life_insurance"
-                      type="number"
+                    <input v-model="taxInfo.pension_life_insurance" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เบี้ยประกันบำนาญ"
-                    />
+                      placeholder="เบี้ยประกันบำนาญ" />
                   </template>
                   <template v-else>
                     <p class="output-field">
                       {{ formatDisplayValue(taxInfo.pension_life_insurance) }}
+                    </p>
+                  </template>
+                </div>
+              </div>
+            </div>
+
+            <!-- 🔹 รายการลดหย่อนภาษี: อื่น ๆ -->
+            <div class="bg-white rounded-lg p-4 shadow-md">
+              <h3 class="text-lg font-bold mb-4 text-gray-900">
+                📝 รายการลดหย่อนภาษี: อื่น ๆ
+              </h3>
+              <div class="grid grid-cols-2 gap-4">
+                <!-- ✅ ช้อปดีมีคืน -->
+                <div>
+                  <label class="text-gray-600 font-bold">ช้อปดีมีคืน (Easy Receipt)</label>
+                  <template v-if="isEditingTax">
+                    <input v-model="taxInfo.easy_receipt" type="number"
+                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      placeholder="ช้อปดีมีคืน (Easy Receipt)" />
+                  </template>
+                  <template v-else>
+                    <p class="output-field">
+                      {{ formatDisplayValue(taxInfo.easy_receipt) }}
+                    </p>
+                  </template>
+                </div>
+
+                <!-- ✅ ดอกเบี้ยบ้าน -->
+                <div>
+                  <label class="text-gray-600 font-bold">ดอกเบี้ยสินเชื่อบ้าน</label>
+                  <template v-if="isEditingTax">
+                    <input v-model="taxInfo.housing_interest" type="number"
+                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      placeholder="ดอกเบี้ยสินเชื่อบ้าน" />
+                  </template>
+                  <template v-else>
+                    <p class="output-field">
+                      {{ formatDisplayValue(taxInfo.housing_interest) }}
+                    </p>
+                  </template>
+                </div>
+
+                <!-- ✅ ซื้อบ้านใหม่ -->
+                <div>
+                  <label class="text-gray-600 font-bold">ค่าซื้อบ้านใหม่</label>
+                  <template v-if="isEditingTax">
+                    <input v-model="taxInfo.new_housing" type="number"
+                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      placeholder="ค่าซื้อบ้านใหม่" />
+                  </template>
+                  <template v-else>
+                    <p class="output-field">
+                      {{ formatDisplayValue(taxInfo.new_housing) }}
                     </p>
                   </template>
                 </div>
@@ -280,12 +292,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">เงินบริจาคทั่วไป</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.general_donation"
-                      type="number"
+                    <input v-model="taxInfo.general_donation" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เงินบริจาคทั่วไป"
-                    />
+                      placeholder="เงินบริจาคทั่วไป" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -296,12 +305,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">เงินบริจาคเพื่อการศึกษา</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.education_donation"
-                      type="number"
+                    <input v-model="taxInfo.education_donation" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เงินบริจาคเพื่อการศึกษา"
-                    />
+                      placeholder="เงินบริจาคเพื่อการศึกษา" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -312,104 +318,31 @@
               </div>
             </div>
 
-            <!-- 🔹 รายการลดหย่อนภาษี: อื่น ๆ -->
-            <div class="bg-white rounded-lg p-4 shadow-md">
-              <h3 class="text-lg font-bold mb-4 text-gray-900">
-                📝 รายการลดหย่อนภาษี: อื่น ๆ
-              </h3>
-              <div class="grid grid-cols-2 gap-4">
-                <!-- ✅ ช้อปดีมีคืน -->
-                <div>
-                  <label class="text-gray-600 font-bold"
-                    >ช้อปดีมีคืน (Easy Receipt)</label
-                  >
-                  <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.easy_receipt"
-                      type="number"
-                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ช้อปดีมีคืน (Easy Receipt)"
-                    />
-                  </template>
-                  <template v-else>
-                    <p class="output-field">
-                      {{ formatDisplayValue(taxInfo.easy_receipt) }}
-                    </p>
-                  </template>
-                </div>
-
-                <!-- ✅ ดอกเบี้ยบ้าน -->
-                <div>
-                  <label class="text-gray-600 font-bold">ดอกเบี้ยสินเชื่อบ้าน</label>
-                  <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.housing_interest"
-                      type="number"
-                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ดอกเบี้ยสินเชื่อบ้าน"
-                    />
-                  </template>
-                  <template v-else>
-                    <p class="output-field">
-                      {{ formatDisplayValue(taxInfo.housing_interest) }}
-                    </p>
-                  </template>
-                </div>
-
-                <!-- ✅ ซื้อบ้านใหม่ -->
-                <div>
-                  <label class="text-gray-600 font-bold">ค่าซื้อบ้านใหม่</label>
-                  <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.new_housing"
-                      type="number"
-                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ค่าซื้อบ้านใหม่"
-                    />
-                  </template>
-                  <template v-else>
-                    <p class="output-field">
-                      {{ formatDisplayValue(taxInfo.new_housing) }}
-                    </p>
-                  </template>
-                </div>
-
-                <!-- ✅ ค่าฝากครรภ์และคลอดบุตร -->
-                <div>
-                  <label class="text-gray-600 font-bold">ค่าฝากครรภ์และคลอดบุตร</label>
-                  <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.prenatal_deduction"
-                      type="number"
-                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="ค่าฝากครรภ์และคลอดบุตร"
-                    />
-                  </template>
-                  <template v-else>
-                    <p class="output-field">
-                      {{ formatDisplayValue(taxInfo.prenatal_deduction) }}
-                    </p>
-                  </template>
-                </div>
-              </div>
-            </div>
-
             <!-- 🔹 การลงทุนลดหย่อนภาษี -->
             <div class="bg-white rounded-lg p-4 shadow-md">
               <h3 class="text-lg font-bold mb-4 text-gray-900">📈 การลงทุนลดหย่อนภาษี</h3>
               <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="text-gray-600 font-bold">วิสาหกิจเพื่อสังคม
+                  </label>
+                  <template v-if="isEditingTax">
+                    <input v-model="taxInfo.social_enterprise" type="number"
+                      class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      placeholder="เงินสมทบประกันสังคม" />
+                  </template>
+                  <template v-else>
+                    <p class="output-field">
+                      {{ formatDisplayValue(taxInfo.social_enterprise) }}
+                    </p>
+                  </template>
+                </div>
                 <!-- ✅ GPF -->
                 <div>
-                  <label class="text-gray-600 font-bold"
-                    >กองทุนบำเหน็จบำนาญข้าราชการ (GPF)</label
-                  >
+                  <label class="text-gray-600 font-bold">กองทุนบำเหน็จบำนาญข้าราชการ (GPF)</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.pension_fund"
-                      type="number"
+                    <input v-model="taxInfo.pension_fund" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="กองทุนบำเหน็จบำนาญข้าราชการ (GPF)"
-                    />
+                      placeholder="กองทุนบำเหน็จบำนาญข้าราชการ (GPF)" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -420,16 +353,11 @@
 
                 <!-- ✅ PVD -->
                 <div>
-                  <label class="text-gray-600 font-bold"
-                    >กองทุนสำรองเลี้ยงชีพ (PVD)</label
-                  >
+                  <label class="text-gray-600 font-bold">กองทุนสำรองเลี้ยงชีพ (PVD)</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.provident_fund"
-                      type="number"
+                    <input v-model="taxInfo.provident_fund" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="กองทุนสำรองเลี้ยงชีพ (PVD)"
-                    />
+                      placeholder="กองทุนสำรองเลี้ยงชีพ (PVD)" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -442,12 +370,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">RMF</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.rmf_fund"
-                      type="number"
+                    <input v-model="taxInfo.rmf_fund" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="RMF"
-                    />
+                      placeholder="RMF" />
                   </template>
                   <template v-else>
                     <p class="output-field">{{ formatDisplayValue(taxInfo.rmf_fund) }}</p>
@@ -456,16 +381,11 @@
 
                 <!-- ✅ NSF -->
                 <div>
-                  <label class="text-gray-600 font-bold"
-                    >กองทุนการออมแห่งชาติ (NSF)</label
-                  >
+                  <label class="text-gray-600 font-bold">กองทุนการออมแห่งชาติ (NSF)</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.national_saving_fund"
-                      type="number"
+                    <input v-model="taxInfo.national_saving_fund" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="กองทุนการออมแห่งชาติ (NSF)"
-                    />
+                      placeholder="กองทุนการออมแห่งชาติ (NSF)" />
                   </template>
                   <template v-else>
                     <p class="output-field">
@@ -478,12 +398,9 @@
                 <div>
                   <label class="text-gray-600 font-bold">Thai ESG</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="taxInfo.thai_esg"
-                      type="number"
+                    <input v-model="taxInfo.thai_esg" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="Thai ESG"
-                    />
+                      placeholder="Thai ESG" />
                   </template>
                   <template v-else>
                     <p class="output-field">{{ formatDisplayValue(taxInfo.thai_esg) }}</p>
@@ -495,54 +412,60 @@
             <!-- Replace the tax deduction goal section -->
             <div class="bg-white rounded-lg p-4 shadow-md">
               <h3 class="text-lg font-bold mb-4 text-gray-900">
-                🎯 เป้าหมายการลดหย่อนภาษีของคุณ
+                🎯 สรุปผลการคำนวณภาษี
               </h3>
               <div class="grid grid-cols-2 gap-4">
+                <!-- Replace the ประหยัดภาษีได้ section -->
+                <div>
+                  <label class="text-gray-600 font-bold">เงินได้รวม</label>
+                  <p class="output-field">฿{{ formatNumber(taxInfo.total_income) }}</p>
+                  <!-- <p class="text-sm text-gray-500 mt-2">
+                    {{ Math.round((taxSavings / currentDeductions) * 100) }}%
+                    ของยอดลดหย่อน
+                  </p> -->
+                </div>
                 <!-- ยอดรวมการลดหย่อนปัจจุบัน -->
                 <div>
                   <label class="text-gray-600 font-bold">ยอดรวมการลดหย่อนปัจจุบัน</label>
                   <p class="output-field">฿{{ formatNumber(taxInfo.total_deduction) }}</p>
-                  <div class="mt-2 bg-gray-200 rounded-full h-2">
+                  <!-- <div class="mt-2 bg-gray-200 rounded-full h-2">
                     <div
                       class="bg-teal-500 h-2 rounded-full transition-all duration-1000"
                       :style="{ width: `${(currentDeductions / deductionGoal) * 100}%` }"
                     ></div>
-                  </div>
+                  </div> -->
                 </div>
 
                 <!-- เป้าหมายการลดหย่อน -->
                 <div>
-                  <label class="text-gray-600 font-bold">เป้าหมายการลดหย่อน</label>
+                  <label class="text-gray-600 font-bold">เงินได้สุทธิ</label>
                   <template v-if="isEditingTax">
-                    <input
-                      v-model="deductionGoal"
-                      type="number"
+                    <input v-model="deductionGoal" type="number"
                       class="input-field w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
-                      placeholder="เป้าหมายการลดหย่อน"
-                    />
+                      placeholder="เป้าหมายการลดหย่อน" />
                   </template>
                   <template v-else>
-                    <p class="output-field">฿{{ formatNumber(deductionGoal) }}</p>
+                    <p class="output-field">฿{{ formatNumber(taxInfo.taxable_income) }}</p>
                   </template>
-                  <p class="text-sm text-gray-500 mt-2">
-                    เหลืออีก ฿{{ formatNumber(deductionGoal - currentDeductions) }}
-                  </p>
+                  <!-- <p class="text-sm text-gray-500 mt-2">
+                    เงินได้รวม ฿{{ formatNumber(taxInfo.taxable_income) }}
+                  </p> -->
                 </div>
 
                 <!-- Replace the ประหยัดภาษีได้ section -->
                 <div>
-                  <label class="text-gray-600 font-bold">ประหยัดภาษีได้</label>
-                  <p class="output-field">฿{{ formatNumber(taxSavings) }}</p>
-                  <p class="text-sm text-gray-500 mt-2">
+                  <label class="text-gray-600 font-bold">ภาษีที่ต้องจ่าย</label>
+                  <p class="output-field">฿{{ formatNumber(usertax) }}</p>
+                  <!-- <p class="text-sm text-gray-500 mt-2">
                     {{ Math.round((taxSavings / currentDeductions) * 100) }}%
                     ของยอดลดหย่อน
-                  </p>
+                  </p> -->
                 </div>
               </div>
             </div>
 
             <!-- Add save/cancel buttons at the bottom -->
-            <div class="text-center mt-6 flex justify-center space-x-4">
+            <!-- <div class="text-center mt-6 flex justify-center space-x-4">
               <button
                 v-if="isEditingTax"
                 @click="saveTaxInfo"
@@ -557,7 +480,7 @@
               >
                 ❌ ยกเลิก
               </button>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -584,6 +507,7 @@ export default {
     return {
       isLoading: false,
       isSaving: false,
+      usertax: 0,
       taxInfo: {
         monthly_income: 0,
         bonus_income: 0,
@@ -616,7 +540,7 @@ export default {
         username: "",
       },
       currentDeductions: 0, // Sum of all deductions
-      deductionGoal: 100000, // Target deduction amount with default value
+      deductionGoal: 0, // Target deduction amount with default value
       taxSavings: 0, // Estimated tax savings
       isEditingTax: false,
       originalTaxInfo: null,
@@ -625,41 +549,42 @@ export default {
   },
   computed: {
     // Add computed property to calculate currentDeductions
-    calculatedDeductions() {
-      const info = this.taxInfo;
-      return (
-        parseFloat(info.personal_deduction || 0) +
-        parseFloat(info.marital_deduction || 0) +
-        parseFloat(info.child_deduction || 0) +
-        parseFloat(info.parent_deduction || 0) +
-        parseFloat(info.disable_deduction || 0) +
-        parseFloat(info.social_enterprise || 0) +
-        parseFloat(info.general_life_insurance || 0) +
-        parseFloat(info.self_life_insurance || 0) +
-        parseFloat(info.parent_life_insurance || 0) +
-        parseFloat(info.pension_life_insurance || 0) +
-        parseFloat(info.general_donation || 0) +
-        parseFloat(info.education_donation || 0) +
-        parseFloat(info.easy_receipt || 0) +
-        parseFloat(info.housing_interest || 0) +
-        parseFloat(info.new_housing || 0) +
-        parseFloat(info.prenatal_deduction || 0) +
-        parseFloat(info.pension_fund || 0) +
-        parseFloat(info.provident_fund || 0) +
-        parseFloat(info.rmf_fund || 0) +
-        parseFloat(info.national_saving_fund || 0) +
-        parseFloat(info.thai_esg || 0)
-      );
-    },
+    // calculatedDeductions() {
+    //   const info = this.taxInfo;
+    //   return (
+    //     parseFloat(info.personal_deduction || 0) +
+    //     parseFloat(info.marital_deduction || 0) +
+    //     parseFloat(info.child_deduction || 0) +
+    //     parseFloat(info.parent_deduction || 0) +
+    //     parseFloat(info.disable_deduction || 0) +
+    //     parseFloat(info.social_enterprise || 0) +
+    //     parseFloat(info.general_life_insurance || 0) +
+    //     parseFloat(info.self_life_insurance || 0) +
+    //     parseFloat(info.parent_life_insurance || 0) +
+    //     parseFloat(info.pension_life_insurance || 0) +
+    //     parseFloat(info.general_donation || 0) +
+    //     parseFloat(info.education_donation || 0) +
+    //     parseFloat(info.easy_receipt || 0) +
+    //     parseFloat(info.housing_interest || 0) +
+    //     parseFloat(info.new_housing || 0) +
+    //     parseFloat(info.prenatal_deduction || 0) +
+    //     parseFloat(info.pension_fund || 0) +
+    //     parseFloat(info.provident_fund || 0) +
+    //     parseFloat(info.rmf_fund || 0) +
+    //     parseFloat(info.national_saving_fund || 0) +
+    //     parseFloat(info.thai_esg || 0)
+    //   );
+    // },
   },
   watch: {
     // Watch for changes in taxInfo to recalculate deductions
-    taxInfo: {
-      handler() {
-        this.calculateTotalDeductions();
-      },
-      deep: true,
-    },
+    // taxInfo: {
+    //   handler() {
+    //     // this.calculateTotalDeductions();
+    //   },
+    //   deep: true,
+    // },
+
   },
   methods: {
     // Add method to calculate tax
@@ -689,8 +614,9 @@ export default {
         }
 
         const data = await response.json();
-        if (data && data.deduction_goal) {
-          this.deductionGoal = data.deduction_goal;
+        if (data) {
+          this.usertax = data[0].users_tax;
+          // console.log(data[0].users_tax);
         }
       } catch (error) {
         console.error("Error fetching tax goal:", error);
@@ -727,10 +653,8 @@ export default {
         const data = await response.json();
         if (data) {
           this.taxInfo = data;
-          this.calculateTotalDeductions();
+          // this.calculateTotalDeductions();
         }
-
-        await this.fetchTaxGoal();
       } catch (error) {
         console.error("Error fetching tax info:", error);
         this.toast.error("ไม่สามารถดึงข้อมูลภาษี");
@@ -880,6 +804,7 @@ export default {
   },
   mounted() {
     this.fetchTaxInfo();
+    this.fetchTaxGoal();
   },
 };
 </script>
@@ -924,6 +849,7 @@ h3 {
 
 /* Simple Emoji Float */
 @keyframes float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -935,7 +861,7 @@ h3 {
 }
 
 /* Apply animation to emojis in headers */
-h3 > *:first-child {
+h3>*:first-child {
   display: inline-block;
   animation: float 2s ease-in-out infinite;
 }
@@ -1041,300 +967,4 @@ button:active {
 .output-field {
   transition: all 0.3s ease;
 }
-=======
-    <div class="min-h-screen flex flex-col">
-        <Navbar />
-        <div class="mb-10">
-        <div class="w-2/3 mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="text-lg py-2 px-5 bg-green-500 text-white text-left font-bold">
-                รายได้
-            </div>
-            <div class="md:col-span-12 px-10 py-5">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">รายได้ต่อเดือน</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">หักค่าใช้จ่าย</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">โบนัสประจำปี</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">หักค่าใช้จ่าย</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">รายได้อื่น ๆ</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">หักค่าใช้จ่าย</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="w-2/3 mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="text-lg py-2 px-5 bg-green-500 text-white text-left font-bold">
-                รายการลดหย่อน: ครอบครัว
-            </div>
-            <div class="md:col-span-15 px-10 py-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">สถานะสมรส</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">โสด</p>
-                            <!-- <p class="">บาท</p> -->
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ลดหย่อนส่วนบุคคล</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ลดหย่อนคู่สมรส</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">ค่าลดหย่อนฝากครรณ์และคลอดบุตร</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">จำนวนบุตร (x คน)</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">จำนวนบุตรบุญธรรม (x คน)</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">ลดหย่อนบิดามารดา (ตนเอง)</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">ลดหย่อนบิดามารดา (คู่สมรส)</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-red-700">ลดหย่อนผู้พิการหรือทุพลภาพ</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-2/3 mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="text-lg py-2 px-5 bg-green-500 text-white text-left font-bold">
-                รายการลดหย่อน: เงินบริจาค
-            </div>
-            <div class="md:col-span-12 px-10 py-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เงินบริจาตทั่วไป</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เงินบริจาคเพื่อการศึกษา</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เงินบริจาคเพื่อการเมือง</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เงินบริจาคเพื่อสังคม</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-2/3 mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="text-lg py-2 px-5 bg-green-500 text-white text-left font-bold">
-                รายการลดหย่อน: ประกันชีวิต
-            </div>
-            <div class="md:col-span-12 px-10 py-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เบี้ยประกันชีวิต</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เบี้ยประกันสุขภาพ</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เบี้ยประกันสุขภาพบิดามารดา</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เบี้ยประกันบำนาญ</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="w-2/3 mx-auto mt-10 bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="text-lg py-2 px-5 bg-green-500 text-white text-left font-bold">
-                รายการลดหย่อน: อื่น ๆ
-            </div>
-            <div class="md:col-span-12 px-10 py-2">
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">เงินสมทบกองทุนประกันสังคม</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ค่าใช้จ่ายจากใบเสร็จอิเล็กทรอนิกส์ (e-Donation)</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ค่าใช้จ่ายท่องเที่ยวเมืองรอง</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ดอกเบี้ยสินเชื่อเพื่อที่อยู่อาศัย</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                        <label class="block text-sm text-gray-700">ค่าซื้อบ้านใหม่</label>
-                        <div class="flex justify-end gap-2">
-                            <p class="">15,000.00</p>
-                            <p class="">บาท</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </div>
-</template>
-
-<script>
-import Navbar from '@/components/Navbar';
-export default {
-    name: "Abouttax",
-    components: {
-        Navbar
-    }
-}
-</script>
-
-<style scoped>
-
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 </style>

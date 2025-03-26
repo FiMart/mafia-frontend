@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="min-h-screen flex flex-col bg-gradient-to-r from-blue-50 via-gray-50 to-purple-50">
     <Navbar />
 
@@ -11,18 +10,19 @@
         <!-- คอลัมน์ซ้าย: มี 2 การ์ดซ้อนกัน -->
         <div class="space-y-6">
           <!-- (1) การ์ดมูลค่าสินทรัพย์ + เป้าหมายลดหย่อนภาษี -->
-          <div class="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-[1.02] transition-all duration-300">
+          <div
+            class="bg-white rounded-2xl shadow-lg pt-6 px-6 pb-0 transform hover:scale-[1.02] transition-all duration-300 h-fit">
             <!-- Asset Value Section -->
             <div class="relative overflow-hidden">
               <!-- Year Selector -->
-              <div class="flex justify-end top-4  z-10">
+              <!-- <div class="absolute top-4 right-4 z-10">
                 <select v-model="selectedYear"
                   class="rounded-md border border-gray-300 bg-white text-sm text-gray-700 py-1.5 px-3 shadow-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
                   <option v-for="year in years" :key="year" :value="year">
                     {{ year }}
                   </option>
                 </select>
-              </div>
+              </div> -->
               <!-- Decorative Background Element -->
               <div
                 class="absolute -right-4 -top-4  bg-gradient-to-br from-teal-100 to-blue-100 rounded-full opacity-50">
@@ -30,10 +30,18 @@
 
               <div class="flex items-center justify-between mb-6 relative">
                 <div class="space-y-2">
-                  <h2
-                    class="text-xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
-                    มูลค่าสินทรัพย์
-                  </h2>
+                  <div class="flex items-center justify-between mb-4">
+                    <h2
+                      class="text-xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+                      มูลค่าสินทรัพย์
+                    </h2>
+                    <select v-model="selectedYear"
+                      class="rounded-md border border-gray-300 bg-white text-sm text-gray-700 py-1.5 px-3 shadow-sm focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
+                      <option v-for="year in years" :key="year" :value="year">
+                        {{ year }}
+                      </option>
+                    </select>
+                  </div>
                   <div class="flex items-baseline space-x-2">
                     <div class="text-4xl font-bold text-gray-800">
                       ฿{{ formatNumber(totalAsset) }}
@@ -67,15 +75,15 @@
             <div class="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent my-6"></div>
 
             <!-- Tax Reduction Card with Enhanced Style -->
-            <div class="mt-4 bg-gray-50 rounded-xl p-4">
+            <!-- <div class="mt-4 bg-gray-50 rounded-xl p-4">
               <TaxReductionCard title="เป้าหมายลดหย่อนภาษี" :currentAmount="formatCurrency(30000)"
                 :totalTarget="formatCurrency(150000)" :progressPercentage="10" class="bg-white shadow-sm rounded-lg" />
-            </div>
+            </div> -->
           </div>
 
           <!-- (2) Enhanced Portfolio Overview Card -->
           <div
-            class="bg-white rounded-2xl shadow-md p-6 transform hover:scale-[1.02] transition-all duration-300 card-animation">
+            class="bg-white rounded-2xl shadow-md px-6 py-8 transform hover:scale-[1.02] transition-all duration-300 card-animation">
             <div class="flex items-center justify-between mb-6">
               <h2 class="text-2xl font-bold text-gray-800">ภาพรวมพอร์ต</h2>
               <div class="bg-blue-50 px-3 py-1 rounded-full pulse-effect">
@@ -182,7 +190,7 @@
 
         <!-- คอลัมน์ขวา: (3) การ์ดคำแนะนำการลงทุน -->
         <div
-          class="bg-white rounded-2xl shadow-md p-6 transform hover:scale-[1.02] transition-all duration-300 h-full card-animation">
+          class="bg-white rounded-2xl shadow-md px-6 py-5 transform hover:scale-[1.02] transition-all duration-300 h-full card-animation">
           <div class="flex items-center justify-between mb-6">
             <div>
               <h2 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-500">
@@ -200,13 +208,13 @@
           <!-- Investment Goals Summary -->
           <div class="bg-gradient-to-r from-gray-50 to-white rounded-xl p-4 mb-6 space-y-3 shadow-sm">
             <div class="flex items-center justify-between">
-              <span class="text-gray-600">เป้าหมายคงเหลือ (เดือน)</span>
+              <span class="text-gray-600">เป้าหมายในการซื้อกองทุน RMF คงเหลือ (เดือน)</span>
               <span class="font-semibold text-gray-800">{{
                 formatCurrency(overviewData.remain_amount_month)
               }}</span>
             </div>
             <div class="flex items-center justify-between">
-              <span class="text-gray-600">เป้าหมายคงเหลือ (ปี)</span>
+              <span class="text-gray-600">เป้าหมายในการซื้อกองทุน RMF คงเหลือ (ปี)</span>
               <span class="font-semibold text-gray-800">{{
                 formatCurrency(overviewData.remain_amount_year)
               }}</span>
@@ -350,114 +358,10 @@ const adviceMap = {
   TREND_DOWN_UNFULL_BALANCE_YEAR: "BUY",
 };
 
-=======
-
-  <div class="min-h-screen">
-    <Navbar />
-    <div class=" flex flex-col  mx-48 my-10">
-      <div class="flex flex-col gap-5 justify-center">
-        <div class="grid grid-flow-col grid-rows-4 gap-3.5">
-          <div class="row-span-1">
-            <div
-              class="border border-stroke dark:border-strokedark rounded-xl shadow-md py-4 px-5 bg-gray-0 bg-opacity-30 backdrop-filter backdrop-blur-lg">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4.5">
-                  <div>
-                    <div class="font-semibold text-lg">
-                      มูลค่าสินทรัพย์
-                    </div>
-                    <div class="font-semibold text-5xl tracking-tight">$12,453.00</div>
-                  </div>
-                </div>
-
-                <div class="text-right">
-                  <p class="mb-0.5 flex items-center justify-end gap-1 text-lg font-medium text-meta-3">
-                    0.14%
-                    <svg class="fill-current" width="9" height="7" viewBox="0 0 9 7" fill="none"
-                      xmlns="http://www.w3.org/2000/svg">
-                      <path d="M4.23511 0.193115L8.23815 6.19312H0.232065L4.23511 0.193115Z" fill=""></path>
-                    </svg>
-                  </p>
-                  <p class="text-lg font-medium text-meta-3">
-                    + $1,984.00
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row-span-5">
-            <TaxReductionCard title="เป้าหมายการลดหย่อนภาษี" currentAmount="30,000.00 บาท" totalTarget="150,000.00 บาท"
-              :progressPercentage="80" />
-          </div>
-
-          <div
-            class="row-span-6 h-fit border border-stroke dark:border-strokedark rounded-xl shadow-md px-5 py-4 bg-gray-0 bg-opacity-30 backdrop-filter backdrop-blur-lg">
-            <div class="flex flex-wrap items-center justify-between gap-2 px-2">
-              <div>
-                <p class="text-xl font-bold text-black dark:text-white">
-                  ภาพรวมพอร์ต
-                </p>
-              </div>
-              <div class="relative z-20 inline-block rounded">
-                <select
-                  class="relative z-20 inline-flex appearance-none rounded border border-stroke bg-transparent py-[5px] pl-3 pr-8 text-sm font-medium outline-none dark:border-strokedark">
-                  <option value="" class="dark:bg-boxdark">Short by</option>
-                  <option value="" class="dark:bg-boxdark">Monthly</option>
-                  <option value="" class="dark:bg-boxdark">Yearly</option>
-                </select>
-                <span class="absolute right-3 top-1/2 z-10 -translate-y-1/2">
-                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M8.61025 11.8872C8.46025 11.8872 8.33525 11.8372 8.21025 11.7372L2.46025 6.08723C2.23525 5.86223 2.23525 5.51223 2.46025 5.28723C2.68525 5.06223 3.03525 5.06223 3.26025 5.28723L8.61025 10.5122L13.9603 5.23723C14.1853 5.01223 14.5353 5.01223 14.7603 5.23723C14.9853 5.46223 14.9853 5.81223 14.7603 6.03723L9.01025 11.6872C8.88525 11.8122 8.76025 11.8872 8.61025 11.8872Z"
-                      fill="#64748B"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-            
-            <!-- this contrent inside fit in block and the bloack not over grid -->
-            <div class="flex flex-col h-full max-h-96 overflow-y-auto scrollbar-style mt-5 mb-4">
-              <!-- <hr></hr> -->
-              <FundCard title="กองทุนรวมสินทรพย์ทางเลือก" fundCount="5 กองทุน" amount="10,000.00 บาท"
-                percentage="-1.25%" percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมหมวดอุตสาหกรรม" fundCount="5 กองทุน" amount="10,000.00 บาท" percentage="-1.25%"
-                percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมตราสารทุน" fundCount="5 กองทุน" amount="10,000.00 บาท" percentage="-1.25%"
-                percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมผสม" fundCount="5 กองทุน" amount="10,000.00 บาท" percentage="-1.25%"
-                percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมตราสารหนี้" fundCount="5 กองทุน" amount="10,000.00 บาท" percentage="-1.25%"
-                percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมพันธบัตรรัฐบาล" fundCount="5 กองทุน" amount="10,000.00 บาท" percentage="-1.25%"
-                percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมตลาดเงินต่างประเทศ" fundCount="5 กองทุน" amount="10,000.00 บาท"
-                percentage="-1.25%" percentageValue="-125.00 บาท" />
-              <FundCard title="กองทุนรวมตลาดเงินในประเทศ" fundCount="5 กองทุน" amount="10,000.00 บาท"
-                percentage="-1.25%" percentageValue="-125.00 บาท" />
-            </div>
-
-          </div>
-        </div>
-
-        <!-- <div class="border-2">
-          6
-        </div> -->
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
-import Navbar from '@/components/Navbar';
-import FundCard from '@/components/FundCard.vue';
-import TaxReductionCard from "@/components/TaxReductionCard.vue";
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 export default {
   name: "Dashboard",
   components: {
     Navbar,
-<<<<<<< HEAD
     TaxReductionCard,
   },
   data() {
@@ -711,16 +615,11 @@ export default {
       offset: 100,
       once: true,
     });
-=======
-    FundCard,
-    TaxReductionCard
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
   },
 };
 </script>
 
 <style scoped>
-<<<<<<< HEAD
 /* (คงสไตล์เดิมทั้งหมด) */
 .min-h-screen {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -898,35 +797,5 @@ tr,
   justify-content: center;
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-=======
-/* Scrollbar Container */
-::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the scrollbar for horizontal scroll */
-}
-
-/* Scrollbar Track */
-::-webkit-scrollbar-track {
-  background: #e0e0e0; /* Background of the track */
-  border-radius: 10px; /* Rounded corners */
-}
-
-/* Scrollbar Thumb */
-::-webkit-scrollbar-thumb {
-  background: #64748b; /* Color of the scrollbar thumb */
-  border-radius: 10px; /* Rounded corners */
-  border: 2px solid #e0e0e0; /* Adds space around thumb */
-}
-
-/* Scrollbar Thumb Hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #4b5563; /* Darker color on hover */
-}
-
-/* Scrollbar for Firefox (Fallback for unsupported browsers) */
-.scrollbar-style {
-  scrollbar-width: thin; /* Make the scrollbar thin */
-  scrollbar-color: #64748b #e0e0e0; /* Thumb color and track color */
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 }
 </style>

@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="min-h-screen">
     <Navbar />
 
@@ -21,9 +20,9 @@
       <div class="mb-6 bg-white p-5 rounded-lg shadow-sm border border-gray-200">
         <h2 class="text-lg font-medium text-gray-800 mb-3">ตัวกรองข้อมูล</h2>
 
-        <div class="space-y-4">
-          <!-- Fund Type Checkboxes -->
-          <div class="filter-section" :class="{ 'opacity-60': isLoading }">
+        <!-- <div class="space-y-4"> -->
+        <!-- Fund Type Checkboxes -->
+        <!-- <div class="filter-section" :class="{ 'opacity-60': isLoading }">
             <h3 class="text-sm font-medium text-gray-700 mb-2">ประเภทกองทุนรวม</h3>
             <div class="flex flex-wrap gap-2">
               <label v-for="type in fundTypes" :key="type" class="filter-checkbox"
@@ -33,27 +32,27 @@
                 <span>{{ type }}</span>
               </label>
             </div>
-          </div>
+          </div> -->
 
-          <!-- Horizontal divider -->
-          <hr class="border-gray-200" />
+        <!-- Horizontal divider -->
+        <!-- <hr class="border-gray-200" /> -->
 
-          <!-- Tax Saving Fund Radio -->
-          <div class="filter-section">
-            <h3 class="text-sm font-medium text-gray-700 mb-2">กองทุนลดหย่อนภาษี</h3>
-            <div class="flex flex-wrap gap-2">
-              <label class="filter-radio" :class="{ 'filter-selected': selectedTaxSaving === 'ทั้งหมด' }">
-                <input type="radio" v-model="selectedTaxSaving" value="ทั้งหมด" class="hidden" />
-                <span>ทั้งหมด</span>
-              </label>
-              <label v-for="type in taxSavingTypes" :key="type" class="filter-radio"
-                :class="{ 'filter-selected': selectedTaxSaving === type }">
-                <input type="radio" v-model="selectedTaxSaving" :value="type" class="hidden" />
-                <span>{{ type }}</span>
-              </label>
-            </div>
+        <!-- Tax Saving Fund Radio -->
+        <div class="filter-section">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">กองทุนลดหย่อนภาษี</h3>
+          <div class="flex flex-wrap gap-2">
+            <label class="filter-radio" :class="{ 'filter-selected': selectedFundTypes === 'ทั้งหมด' }">
+              <input type="radio" v-model="selectedFundTypes" value="ทั้งหมด" class="hidden" />
+              <span>ทั้งหมด</span>
+            </label>
+            <label v-for="type in fundTypes" :key="type" class="filter-radio"
+              :class="{ 'filter-selected': selectedFundTypes === type }">
+              <input type="radio" v-model="selectedFundTypes" :value="type" class="hidden" />
+              <span>{{ type }}</span>
+            </label>
           </div>
         </div>
+        <!-- </div> -->
       </div>
 
       <!-- Results Count -->
@@ -159,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Loading from "@/components/Loading.vue";
 
@@ -176,23 +175,14 @@ const columns = [
   { key: "gain_loss_percent", label: "%GL" },
   { key: "present_nav", label: "ลงทุนปัจจุบัน" },
   { key: "nav_average", label: "ลงทุนเฉลี่ย" },
-  // { key: "valid_units", label: "หน่วยที่ขายได้" },
 ];
-const fundTypes = [
-  "กองทุนรวมตลาดเงินในประเทศ",
-  "กองทุนรวมตลาดเงินต่างประเทศ",
-  "กองทุนรวมพันธบัตรรัฐบาล",
-  "กองทุนรวมตราสารหนี้",
-  "กองทุนรวมผสม",
-  "กองทุนรวมตราสารทุน",
-  "กองทุนรวมหมวดอุตสาหกรรม",
-  "กองทุนรวมสินทรัพย์ทางเลือก",
-];
-const taxSavingTypes = ["RMF", "SSF", "ThaiESG"];
-const selectedFundTypes = [];
+
+const fundTypes = ["RMF", "SSF", "ThaiESG"];
+const selectedFundTypes = ref("ทั้งหมด");  // Default is "ทั้งหมด"
 
 const funds = ref([]);
 
+// Pagination and sorting
 const currentPage = ref(1);
 const perPage = ref(10);
 const sortKey = ref("fund_name");
@@ -227,8 +217,6 @@ const fetchPortfolio = async () => {
     }
 
     const data = await response.json();
-
-    // Map API response to match the expected table format
     funds.value = data;
   } catch (error) {
     console.error("Failed to fetch portfolio data:", error);
@@ -240,8 +228,22 @@ const fetchPortfolio = async () => {
 // Fetch data when the component is mounted
 onMounted(fetchPortfolio);
 
+// Filter the funds based on selected filters
+const filterFunds = (fund) => {
+  // Filter by selected fund types
+  const matchesFundType =
+    selectedFundTypes.value === "ทั้งหมด" ||  // If "ทั้งหมด" is selected, show all
+    selectedFundTypes.value === fund.fund_type;  // Compare fund's type to selected type
+
+  return matchesFundType;
+};
+
+// Filtered and sorted funds
 const filteredAndSortedFunds = computed(() => {
   let result = [...funds.value];
+
+  // Apply the filter
+  result = result.filter(filterFunds);
 
   // Sort data
   return result.sort((a, b) => {
@@ -252,6 +254,7 @@ const filteredAndSortedFunds = computed(() => {
   });
 });
 
+// Paginated funds
 const paginatedFunds = computed(() => {
   const start = (currentPage.value - 1) * perPage.value;
   const end = start + perPage.value;
@@ -262,6 +265,7 @@ const totalPages = computed(() =>
   Math.ceil(filteredAndSortedFunds.value.length / perPage.value)
 );
 
+// Sorting function
 const sort = async (key) => {
   isSorting.value = true;
   try {
@@ -278,6 +282,7 @@ const sort = async (key) => {
   }
 };
 
+// Pagination functions
 const prevPage = () => {
   if (currentPage.value > 1) {
     goToPage(currentPage.value - 1);
@@ -293,8 +298,7 @@ const nextPage = () => {
 const goToPage = (pageNumber) => {
   if (pageNumber > 0 && pageNumber <= totalPages.value) {
     currentPage.value = pageNumber;
-
-    // Get the table container element
+    // Scroll to the table
     const tableContainer = document.querySelector(".table-wrapper");
     if (tableContainer) {
       const tableTop = tableContainer.offsetTop;
@@ -306,6 +310,8 @@ const goToPage = (pageNumber) => {
   }
 };
 </script>
+
+
 
 
 <style scoped>
@@ -845,39 +851,5 @@ input:focus {
   to {
     opacity: 1;
   }
-=======
-<div class="min-h-screen flex flex-col">
-    <Navbar />
-    <main class="flex-grow flex items-center justify-center">
-        <h1 class="text-center text-4xl font-bold">{{ fundType }} Summary</h1>
-    </main>
-    <!-- Add your summary content here -->
-</div>
-</template>
-
-    
-<script>
-import Navbar from '@/components/Navbar';
-export default {
-    components: {
-        Navbar
-    },
-    props: {
-        fundType: {
-            type: String,
-            required: true
-        }
-    }
-};
-</script>
-
-    
-<style scoped>
-/* Add your styles here */
-h1 {
-    text-align: center;
-    font-size: 3rem;
-    font-weight: bold;
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 }
 </style>

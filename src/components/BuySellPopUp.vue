@@ -1,36 +1,24 @@
 <template>
-  <div
-    class="max-w-lg mx-auto bg-white rounded-lg shadow-lg overflow-hidden animate-fadeIn"
-  >
+  <div class="max-w-lg mx-auto bg-white rounded-lg shadow-lg overflow-hidden animate-fadeIn">
     <!-- Update loading overlay -->
-    <Loading
-      v-if="isLoading"
-      message="กำลังดำเนินการ..."
-      class="absolute inset-0 bg-black bg-opacity-50 z-50"
-    />
+    <Loading v-if="isLoading" message="กำลังดำเนินการ..." class="absolute inset-0 bg-black bg-opacity-50 z-50" />
 
     <!-- ✅ Tab Selector for Buy/Sell -->
     <div class="flex">
-      <button
-        @click="confirmChangeTransactionType('buy')"
-        :class="[
-          'flex-1 py-3 text-lg font-semibold text-center',
-          transactionType === 'buy'
-            ? 'bg-green-500 text-white'
-            : 'bg-gray-200 text-gray-600',
-        ]"
-      >
+      <button @click="confirmChangeTransactionType('buy')" :class="[
+        'flex-1 py-3 text-lg font-semibold text-center',
+        transactionType === 'buy'
+          ? 'bg-green-500 text-white'
+          : 'bg-gray-200 text-gray-600',
+      ]">
         ซื้อ
       </button>
-      <button
-        @click="confirmChangeTransactionType('sell')"
-        :class="[
-          'flex-1 py-3 text-lg font-semibold text-center',
-          transactionType === 'sell'
-            ? 'bg-red-500 text-white'
-            : 'bg-gray-200 text-gray-600',
-        ]"
-      >
+      <button @click="confirmChangeTransactionType('sell')" :class="[
+        'flex-1 py-3 text-lg font-semibold text-center',
+        transactionType === 'sell'
+          ? 'bg-red-500 text-white'
+          : 'bg-gray-200 text-gray-600',
+      ]">
         ขาย
       </button>
     </div>
@@ -58,50 +46,32 @@
               <span class="tooltip-text">กรุณากรอกจำนวนเงินที่ต้องการลงทุน</span>
             </span>
           </label>
-          <input
-            type="number"
-            min="0"
-            step="0.01"
-            @input="validateNumber($event, 'amount_processed')"
-            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500"
-            v-model="amount_processed"
-          />
+          <input type="number" min="0" step="1" v-model.number="amount_processed" @input="onAmountInput"
+            @blur="formatAmount" class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
+
         </div>
 
         <!-- Price per Unit -->
         <div>
           <label class="block text-gray-700 font-medium mb-1">ราคาต่อหน่วย (บาท)</label>
-          <input
-            type="number"
-            min="0"
-            step="0.0001"
-            @input="validateNumber($event, 'processed_nav')"
-            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500"
-            v-model="processed_nav"
-          />
+          <input type="number" min="0" step="0.0001" v-model.number="processed_nav" @input="onNavInput"
+            @blur="formatNav" class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
+
         </div>
 
         <!-- Number of Units -->
         <div>
           <label class="block text-gray-700 font-medium mb-1">จำนวนหน่วย (หน่วย)</label>
-          <input
-            type="number"
-            min="0"
-            step="0.0001"
-            @input="validateNumber($event, 'units_processed')"
-            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500"
-            v-model="units_processed"
-          />
+          <input type="number" min="0" step="0.0001" v-model="units_processed"
+            @input="validatePositiveDecimal($event, 'units_processed', 4)"
+            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
         </div>
 
         <!-- Transaction Date -->
         <div>
           <label class="block text-gray-700 font-medium mb-1">วันที่ดำเนินการ</label>
-          <input
-            type="date"
-            class="w-full p-3 border rounded-full focus:ring-2 focus:ring-teal-500"
-            v-model="transaction_date"
-          />
+          <input type="date" class="w-full p-3 border rounded-full focus:ring-2 focus:ring-teal-500"
+            v-model="transaction_date" />
         </div>
       </div>
 
@@ -124,52 +94,38 @@
 
       <!-- ✅ Action Buttons -->
       <div class="mt-6 flex space-x-4">
-        <button
-          @click="confirmCancel"
-          :disabled="isLoading"
-          class="w-1/2 bg-gray-500 text-white py-3 rounded-full font-semibold hover:bg-gray-600 transition disabled:opacity-50"
-        >
+        <button @click="confirmCancel" :disabled="isLoading"
+          class="w-1/2 bg-gray-500 text-white py-3 rounded-full font-semibold hover:bg-gray-600 transition disabled:opacity-50">
           ยกเลิก
         </button>
 
-        <button
-          :disabled="isLoading"
-          class="w-1/2 py-3 rounded-full font-semibold transition disabled:opacity-50"
+        <button :disabled="isLoading" class="w-1/2 py-3 rounded-full font-semibold transition disabled:opacity-50"
           :class="[
             transactionType === 'buy'
               ? 'bg-green-500 hover:bg-green-600 text-white'
               : 'bg-red-500 hover:bg-red-600 text-white',
             { 'success-animation': showSuccess },
             { 'error-animation': showError },
-          ]"
-          @click="confirmTransaction"
-        >
+          ]" @click="confirmTransaction">
           ยืนยัน
         </button>
       </div>
 
       <!-- Confirmation Popup -->
-      <div
-        v-if="showConfirmationPopup"
-        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-      >
+      <div v-if="showConfirmationPopup"
+        class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg max-w-md mx-auto">
           <h3 class="text-lg font-bold mb-2">ยืนยันการดำเนินการ</h3>
           <p class="text-gray-700">คุณแน่ใจหรือไม่ว่าต้องการดำเนินการนี้?</p>
           <div class="mt-4 flex justify-center space-x-4">
-            <button
-              @click="
-                confirmationAction();
-                showConfirmationPopup = false;
-              "
-              class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
+            <button @click="
+              confirmationAction();
+            showConfirmationPopup = false;
+            " class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
               ตกลง
             </button>
-            <button
-              @click="showConfirmationPopup = false"
-              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-            >
+            <button @click="showConfirmationPopup = false"
+              class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
               ยกเลิก
             </button>
           </div>
@@ -263,6 +219,78 @@ export default {
     this.fetchNAVData(this.name, this.transaction_date);
   },
   methods: {
+    validatePositiveDecimal(event, field, decimalPlaces = 2) {
+      let val = event.target.value;
+
+      // ลบทุกตัวที่ไม่ใช่ตัวเลขหรือจุด
+      val = val.replace(/[^\d.]/g, '');
+
+      // แยกส่วนก่อนและหลังจุดทศนิยม
+      const parts = val.split('.');
+      if (parts.length > 2) {
+        val = parts[0] + '.' + parts[1]; // ตัดจุดทศนิยมเกิน
+      }
+
+      // ไม่ให้ขึ้นต้นด้วย 0 หลายตัว (เช่น 0004.23 → 4.23)
+      if (parts[0]) {
+        parts[0] = String(Number(parts[0]));
+      }
+
+      // จำกัดทศนิยม
+      if (parts.length === 2) {
+        parts[1] = parts[1].slice(0, decimalPlaces);
+      }
+
+      // รวมกลับ
+      val = parts.join('.');
+
+      // แปลงเป็นตัวเลขและเก็บไว้ใน data
+      this[field] = val === '' ? '' : parseFloat(val);
+    },
+    onNavInput(e) {
+      // เอาเฉพาะตัวเลขกับจุดทศนิยม
+      let val = e.target.value.replace(/[^\d.]/g, '');
+
+      // ป้องกันจุดทศนิยมซ้ำ
+      const parts = val.split('.');
+      if (parts.length > 2) {
+        val = parts[0] + '.' + parts[1]; // ตัดส่วนเกิน
+      }
+
+      // ลบลบ (-)
+      if (val.startsWith('-')) {
+        val = val.replace('-', '');
+      }
+
+      e.target.value = val;
+      this.processed_nav = parseFloat(val) || 0;
+    },
+    formatNav() {
+      // format ให้มีทศนิยมสูงสุด 4 ตำแหน่ง
+      this.processed_nav = parseFloat(this.processed_nav).toFixed(4);
+    },
+    onAmountInput(e) {
+      // Remove any non-number characters (excluding dot)
+      const cleaned = e.target.value.replace(/[^\d.]/g, '');
+
+      // Prevent multiple dots
+      const parts = cleaned.split('.');
+      if (parts.length > 2) {
+        e.target.value = parts[0] + '.' + parts[1];
+      }
+
+      // Prevent negative
+      if (cleaned.startsWith('-')) {
+        e.target.value = cleaned.replace('-', '');
+      }
+
+      // Update the model
+      this.amount_processed = parseFloat(e.target.value) || 0;
+    },
+    formatAmount() {
+      // Limit to 2 decimal places
+      this.amount_processed = parseFloat(this.amount_processed).toFixed(2);
+    },
     async fetchNAVData(fund, date) {
       if (!fund || !date) return;
 
@@ -449,6 +477,7 @@ export default {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -484,9 +513,11 @@ export default {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }
@@ -549,24 +580,29 @@ input:focus {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
     background-color: #10b981;
   }
+
   100% {
     transform: scale(1);
   }
 }
 
 @keyframes error {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   20%,
   60% {
     transform: translateX(-5px);
   }
+
   40%,
   80% {
     transform: translateX(5px);

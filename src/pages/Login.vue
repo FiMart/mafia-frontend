@@ -1,6 +1,5 @@
 <template>
   <div class="login-container min-h-screen flex items-center justify-center">
-<<<<<<< HEAD
     <!-- Loading Spinner -->
     <Loading 
       v-if="isLoading" 
@@ -11,8 +10,6 @@
     <!-- Remove separate overlay since it's now part of Loading component -->
 
     <!-- Login Form Container -->
-=======
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
     <div class="w-96 bg-white rounded-lg shadow-lg p-6">
       <!-- Logo -->
       <div class="flex justify-center mb-6">
@@ -24,26 +21,14 @@
 
       <!-- Login Form -->
       <form @submit.prevent="handleSubmit" class="space-y-4">
-<<<<<<< HEAD
         <!-- Username Input -->
         <div class="mb-4">
           <input type="text" v-model="formData.username" placeholder="ชื่อผู้ใช้"
             class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
-=======
-        <!-- Email Input -->
-        <div class="mb-4">
-          <input 
-            type="email" 
-            v-model="formData.email" 
-            placeholder="อีเมล" 
-            class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" 
-          />
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
         </div>
 
         <!-- Password Input -->
         <div class="relative mb-4">
-<<<<<<< HEAD
           <input :type="showPassword ? 'text' : 'password'" v-model="formData.password" placeholder="รหัสผ่าน"
             class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <button type="button" @click="togglePassword"
@@ -57,67 +42,21 @@
               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path
                 d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-=======
-          <input 
-            :type="showPassword ? 'text' : 'password'" 
-            v-model="formData.password" 
-            placeholder="รหัสผ่าน" 
-            class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400" 
-          />
-          <button 
-            type="button" 
-            @click="togglePassword" 
-            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
-          >
-            <svg 
-              v-if="showPassword" 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-5 w-5" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor"
-              stroke-width="2" 
-              stroke-linecap="round" 
-              stroke-linejoin="round"
-            >
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-            <svg 
-              v-else 
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-5 w-5" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor"
-              stroke-width="2" 
-              stroke-linecap="round" 
-              stroke-linejoin="round"
-            >
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
               <line x1="1" y1="1" x2="23" y2="23" />
             </svg>
           </button>
         </div>
 
         <!-- Forgot Password Link -->
-        <div class="text-right">
+        <!-- <div class="text-right">
           <router-link to="forgot-password" class="text-teal-600 hover:text-teal-800 text-sm">
             ลืมรหัสผ่าน?
           </router-link>
-        </div>
+        </div> -->
 
         <!-- Login Button -->
-<<<<<<< HEAD
         <button type="submit"
           class="w-full bg-teal-600 text-white py-2 rounded-full hover:bg-teal-800 transition-colors font-bold">
-=======
-        <button 
-          type="submit" 
-          class="w-full bg-teal-600 text-white py-2 rounded-full hover:bg-teal-800 transition-colors font-bold"
-        >
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
           เข้าสู่ระบบ
         </button>
 
@@ -137,35 +76,22 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-<<<<<<< HEAD
 import Loading from '@/components/Loading.vue'
-=======
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 
 const router = useRouter()
 const toast = useToast()
 
-<<<<<<< HEAD
 // กำหนดข้อมูลฟอร์ม
 const formData = reactive({
   username: '',
-=======
-const formData = reactive({
-  email: '',
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
   password: ''
 })
 
 const showPassword = ref(false)
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
 
-<<<<<<< HEAD
 const isLoading = ref(false)
 
 // ฟังก์ชันสำหรับส่งข้อมูลล็อกอินไปยัง API และรับ JWT token
@@ -179,18 +105,10 @@ const handleSubmit = async () => {
     toast.error('กรุณากรอกข้อมูลให้ครบถ้วน', {
       position: "top-center",
       timeout: 1000,
-=======
-const handleSubmit = () => {
-  if (!formData.email || !formData.password) {
-    toast.error('กรุณากรอกข้อมูลให้ครบถ้วน', {
-      position: "top-center",
-      timeout: 3000,
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
       toastClassName: "custom-toast-center"
     })
     return
   }
-<<<<<<< HEAD
 
   try {
     const response = await fetch("/api/auth/login", {
@@ -272,27 +190,11 @@ const handleSubmit = () => {
       toastClassName: "custom-toast-center"
     })
   }
-=======
-  
-  // Show success toast and redirect
-  toast.success('เข้าสู่ระบบสำเร็จ', {
-    position: "top-center",
-    timeout: 2000,
-    toastClassName: "custom-toast-center"
-  })
-  
-  setTimeout(() => {
-    router.push('/home')
-  }, 2000)
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 }
 </script>
 
 <style scoped>
-<<<<<<< HEAD
 /* Background Style */
-=======
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 .login-container {
   display: flex;
   justify-content: center;
@@ -305,7 +207,6 @@ const handleSubmit = () => {
   position: relative;
 }
 
-<<<<<<< HEAD
 /* Card Animation */
 .bg-white {
   transition: all 0.3s ease;
@@ -362,17 +263,6 @@ button:not(:disabled):active {
 }
 
 /* Toast Styling */
-=======
-.login-form {
-  position: relative;
-  z-index: 1;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 .custom-toast-center {
   margin: 0 auto !important;
   text-align: center !important;
@@ -385,8 +275,4 @@ button:not(:disabled):active {
   right: 0;
   margin: 0 auto;
 }
-<<<<<<< HEAD
 </style>
-=======
-</style>
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1

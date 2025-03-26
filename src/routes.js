@@ -11,11 +11,8 @@ import ForgotPassword from "./pages/ForgotPassword.vue";
 import SurveyExperience from "./pages/SurveyExperience.vue";
 import SurveyTax from "./pages/SurveyTax.vue";
 import Transaction from "./pages/Transaction.vue";
-<<<<<<< HEAD
 import Summary from "./pages/Summary.vue";
 import Aboutus from "./pages/Aboutus.vue";
-=======
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
@@ -123,7 +120,6 @@ const routes = [
       title: "MutuAl Fund Investment Advisor (MAFIA)",
     },  
   },
-<<<<<<< HEAD
   {
     name: "Summary",
     component: Summary,
@@ -140,16 +136,30 @@ const routes = [
       title: "MutuAl Fund Investment Advisor (MAFIA)",
     },  
   },
-=======
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 ];
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-router.beforeEach((to, from) => {
+// router.beforeEach((to, from) => {
+//   document.title = to.meta?.title ?? "Default Title";
+// });
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['HomeBefore', 'Login', 'Register'];
+  const authRequired = !publicPages.includes(to.name);
+  const isLoggedIn = !!localStorage.getItem('jwtToken');
+
+  // ตั้ง title
   document.title = to.meta?.title ?? "Default Title";
+
+  // ถ้าต้อง login แต่ยังไม่ login → redirect ไป login
+  if (authRequired && !isLoggedIn) {
+    return next({ name: 'Login' });
+  }
+
+  next();
 });
 
 export default router;

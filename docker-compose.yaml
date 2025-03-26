@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mafia_frontend:
+    container_name: mafia_frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:8081"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run serve
+    restart: always
+    networks:
+      - shared_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+networks:
+  shared_network:
+    external: true

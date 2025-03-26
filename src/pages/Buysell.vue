@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div class="min-h-screen flex flex-col">
     <Navbar />
 
@@ -295,21 +294,21 @@
                 <span class="font-semibold">บลจ.</span>
                 <span class="text-gray-500 dark:text-gray-400">{{
                   fund_info.company
-                }}</span>
+                  }}</span>
               </div>
               <!-- ประเภทกองทุน -->
               <div class="flex justify-between items-center mb-2">
                 <span class="font-semibold">ประเภทกองทุน</span>
                 <span class="text-gray-500 dark:text-gray-400">{{
                   fund_info.fund_type
-                }}</span>
+                  }}</span>
               </div>
               <!-- ความเสี่ยง -->
               <div class="flex justify-between items-center mb-2">
                 <span class="font-semibold">ความเสี่ยง</span>
                 <span class="text-gray-500 dark:text-gray-400">{{
                   fund_info.fund_risk
-                }}</span>
+                  }}</span>
               </div>
               <!-- จ่ายปันผล -->
               <div class="flex justify-between items-center mb-2">
@@ -355,7 +354,7 @@
                 <span class="font-semibold">วันจดทะเบียนกองทุน</span>
                 <span class="text-gray-500 dark:text-gray-400">{{
                   fund_info.fund_registration_date
-                }}</span>
+                  }}</span>
               </div>
             </div>
           </div>
@@ -468,11 +467,15 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "Data One",
+            label: "NAV",
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(75,192,192,1)",
             pointBackgroundColor: "rgba(75,192,192,1)",
+            pointRadius: 0,          // 👈 ซ่อนจุดบนกราฟ
+            pointHoverRadius: 0,     // 👈 ซ่อนจุดตอน hover
             data: [],
+            fill: false,
+            tension: 0.4, // เส้นโค้ง (ถ้าไม่ต้องการโค้งใช้ 0)
           },
         ],
       },
@@ -1129,25 +1132,4 @@ button:not(.active):hover {
 .bg-opacity-90 {
   background-color: rgba(255, 255, 255, 0.9);
 }
-=======
-<div class="min-h-screen flex flex-col">
-    <Navbar />
-    <main class="flex-grow flex items-center justify-center">
-    </main>
-</div>
-</template>
-
-<script>
-import Navbar from '@/components/Navbar';
-export default {
-    name: "Buysell",
-    components: {
-        Navbar
-    }
-}
-</script>
-
-<style scoped>
-
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
 </style>

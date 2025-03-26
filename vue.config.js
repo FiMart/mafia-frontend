@@ -1,14 +1,14 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
-<<<<<<< HEAD
   transpileDependencies: true,
   devServer: {
+    allowedHosts: "all",
+    port: 8081,
     proxy: {
       '/api': {
-        target: 'https://mafia.northy888.com',
+        target: 'http://mafia_backend-app-1:5000',
         changeOrigin: true,
         secure: false, 
-        // Remove pathRewrite
       }
     }    
   },
@@ -23,7 +23,3 @@ module.exports = defineConfig({
   }
 })
 
-=======
-  transpileDependencies: true
-})
->>>>>>> 0d104b837e000639ab4276695d076fae98e6afe1
