@@ -25,7 +25,7 @@
             <!-- 🔹 Income Section -->
             <div class="bg-white rounded-lg p-4 shadow-md">
               <h3 class="text-lg font-bold mb-4 text-gray-900">
-                💰 รายได้ & หักค่าใช้จ่าย
+                💰 รายได้
               </h3>
               <div class="grid grid-cols-1 gap-4">
                 <div>

@@ -211,6 +211,7 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate logout process
 
         // Redirect or clear session
+        localStorage.clear();
         this.$router.push("/");
       } catch (error) {
         console.error("Logout error:", error);
@@ -221,6 +222,7 @@ export default {
     },
     logout() {
       // Perform any logout logic here, such as clearing tokens or user data
+      localStorage.clear();
       this.$router.push("/");
     },
     closeDropdown() {

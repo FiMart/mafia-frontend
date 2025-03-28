@@ -108,7 +108,7 @@
                     <span class="highlight-number">{{ Number(fund.present_nav).toLocaleString("th-TH") }}</span> ฿
                   </td>
                   <td class="py-3 px-4 text-right font-mono">
-                    {{ Number(fund.valid_units).toLocaleString("th-TH", { maximumFractionDigits: 4 }) }}
+                    {{ Number(fund.nav_average).toLocaleString("th-TH", { maximumFractionDigits: 4 }) }}
                   </td>
                 </tr>
               </tbody>
@@ -173,8 +173,8 @@ const columns = [
   { key: "holding_units", label: "จำนวนที่ถือ" },
   { key: "cost", label: "ต้นทุน" },
   { key: "gain_loss_percent", label: "%GL" },
-  { key: "present_nav", label: "ลงทุนปัจจุบัน" },
-  { key: "nav_average", label: "ลงทุนเฉลี่ย" },
+  { key: "present_nav", label: "มูลค่าหน่วยลงทุนปัจจุบัน" },
+  { key: "nav_average", label: "มูลค่าหน่วยลงทุนเฉลี่ย" },
 ];
 
 const fundTypes = ["RMF", "SSF", "ThaiESG"];

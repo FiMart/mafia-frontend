@@ -685,16 +685,16 @@ export default {
           const returnValue = parseFloat(this.returnTarget);
           const volatilityValue = parseFloat(this.volatilityTolerance);
 
-          if (returnValue < volatilityValue) {
-            toast.warning(
-              "โปรดพิจารณาอีกครั้ง: ผลตอบแทนที่คาดหวังน้อยกว่าความผันผวนที่รับได้",
-              {
-                position: "top-center",
-                timeout: 4000,
-              }
-            );
-            // Still allow proceeding, just giving a warning
-          }
+          // if (returnValue < volatilityValue) {
+          //   toast.warning(
+          //     "โปรดพิจารณาอีกครั้ง: ผลตอบแทนที่คาดหวังน้อยกว่าความผันผวนที่รับได้",
+          //     {
+          //       position: "top-center",
+          //       timeout: 4000,
+          //     }
+          //   );
+          //   // Still allow proceeding, just giving a warning
+          // }
         } else {
           // If any validation failed, don't proceed
           return;
@@ -932,19 +932,20 @@ export default {
         });
         this.returnTarget = "";
         return false;
-      } else if (value > 100) {
-        toast.warning("ผลตอบแทนต่อปีที่คาดหวังสูงเกินความเป็นจริง", {
-          position: "top-center",
-          timeout: 3000,
-        });
-        return false;
-      } else if (value > 20) {
-        toast.info("ผลตอบแทนสูงมาก อาจมีความเสี่ยงสูงตามไปด้วย", {
-          position: "top-center",
-          timeout: 3000,
-        });
-        return true;
-      }
+      } 
+      // else if (value > 100) {
+      //   toast.warning("ผลตอบแทนต่อปีที่คาดหวังสูงเกินความเป็นจริง", {
+      //     position: "top-center",
+      //     timeout: 3000,
+      //   });
+      //   return false;
+      // } else if (value > 20) {
+      //   toast.info("ผลตอบแทนสูงมาก อาจมีความเสี่ยงสูงตามไปด้วย", {
+      //     position: "top-center",
+      //     timeout: 3000,
+      //   });
+      //   return true;
+      // }
 
       return true;
     },
@@ -983,19 +984,20 @@ export default {
         });
         this.volatilityTolerance = "";
         return false;
-      } else if (value > 10) {
-        toast.warning("ความผันผวนที่รับได้สูงมาก แสดงถึงความเสี่ยงสูง", {
-          position: "top-center",
-          timeout: 3000,
-        });
-        return true;
-      } else if (value < 1) {
-        toast.info("ความผันผวนที่รับได้ต่ำ อาจทำให้ผลตอบแทนไม่สูงนัก", {
-          position: "top-center",
-          timeout: 3000,
-        });
-        return true;
-      }
+      } 
+      // else if (value > 10) {
+      //   toast.warning("ความผันผวนที่รับได้สูงมาก แสดงถึงความเสี่ยงสูง", {
+      //     position: "top-center",
+      //     timeout: 3000,
+      //   });
+      //   return true;
+      // } else if (value < 1) {
+      //   toast.info("ความผันผวนที่รับได้ต่ำ อาจทำให้ผลตอบแทนไม่สูงนัก", {
+      //     position: "top-center",
+      //     timeout: 3000,
+      //   });
+      //   return true;
+      // }
 
       return true;
     },
