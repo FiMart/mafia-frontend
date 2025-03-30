@@ -10,6 +10,7 @@ npm run serve
 
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+...bash
 src
 │── assets
 │   │── icon
@@ -49,3 +50,4 @@ src
 │   │── SurveyExperience.vue
 │   │── SurveyTax.vue
 │   │── Transaction.vue
+...
