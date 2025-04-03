@@ -613,7 +613,12 @@ export default {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
-
+                localStorage.setItem('marital_status', this.tax_info2025.marital_status);
+                localStorage.setItem('children', this.totalChildren);
+                localStorage.setItem('childernAfter2018', this.childrenAfter2018);
+                localStorage.setItem('adoptedChildren', this.adoptedChildren);
+                localStorage.setItem('number_of_parents', this.tax_info2025.number_of_parents);
+                localStorage.setItem('has_disabled_person', this.tax_info2025.has_disabled_person);
                 const data = await response.json();
                 const taxable_income = data.calculations.taxable_income;
                 const total_deduction = data.calculations.total_deduction;

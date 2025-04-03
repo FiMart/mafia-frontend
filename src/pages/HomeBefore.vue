@@ -56,7 +56,7 @@
           <table class="w-full">
             <thead>
               <tr class="bg-green-500 border-b border-gray-200 text-white">
-                <th class="p-3 text-center font-medium">
+                <th class="p-3 flex items-center justify-center w-full">
                   <button @click="sort('fund_name')" class="flex items-center justify-center w-full">
                     ชื่อกองทุน
                     <span v-if="sortKey === 'fund_name'" class="ml-1">

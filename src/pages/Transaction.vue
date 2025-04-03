@@ -18,8 +18,27 @@
       <!-- Filters Section with improved layout -->
       <div class="mb-6 bg-white p-5 rounded-lg shadow-sm border border-gray-200">
         <div class="space-y-4">
+
           <!-- Date Range Filter -->
           <div class="filter-section flex items-center gap-4">
+            <div class="mb-4 mt-4 relative">
+              <!-- <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-gray-800">กองทุนทั้งหมด</h2>
+        </div> -->
+
+              <!-- Search Input -->
+              <div class="relative w-full max-w-xs">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <input type="text" placeholder="ค้นหากองทุน" v-model="search"
+                  class="w-full py-1.5 pl-9 pr-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white border border-gray-200 text-gray-700 placeholder-gray-400 text-sm" />
+              </div>
+            </div>
             <!-- Start Date Input -->
             <div class="flex items-center">
               <label for="startDate" class="mr-2 text-sm">Start Date:</label>
@@ -36,11 +55,14 @@
             <button @click="clearFilters" class="bg-gray-500 text-white py-1 px-4 rounded-md hover:bg-gray-600">
               Clear Filter
             </button>
+
+
           </div>
+
         </div>
       </div>
 
-
+      <!-- Funds Table Section -->
       <!-- Results Count -->
       <div class="mb-3 flex justify-between items-center">
         <div class="text-sm text-white">
@@ -55,10 +77,10 @@
             <!-- Remove the overflow-x-auto div wrapper that causes horizontal scrolling -->
             <table class="w-full table-fixed">
               <thead>
-                <tr>
+                <tr class="text-sm">
                   <!-- Set specific widths for each column to better control the layout -->
-                  <th class="table-header w-1/4">
-                    <button class="flex items-center" @click="sort('fund_name')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('fund_name')">
                       ชื่อกองทุน
                       <span v-if="sortKey === 'fund_name'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -66,8 +88,8 @@
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/12">
-                    <button class="flex items-center" @click="sort('transaction_type')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('transaction_type')">
                       ประเภท
                       <span v-if="sortKey === 'transaction_type'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -75,17 +97,17 @@
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/12">
-                    <button class="flex items-center" @click="sort('gain_loss_percent')">
-                      %G/L
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('gain_loss_percent')">
+                      Gain/Loss (%)
                       <span v-if="sortKey === 'gain_loss_percent'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
                       </span>
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/8">
-                    <button class="flex items-center" @click="sort('units_processed')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('units_processed')">
                       จำนวนหน่วย
                       <span v-if="sortKey === 'units_processed'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -93,8 +115,8 @@
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/12">
-                    <button class="flex items-center" @click="sort('processed_nav')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('processed_nav')">
                       NAV
                       <span v-if="sortKey === 'processed_nav'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -102,8 +124,8 @@
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/8">
-                    <button class="flex items-center" @click="sort('amount_processed')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('amount_processed')">
                       จำนวนเงิน
                       <span v-if="sortKey === 'amount_processed'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -111,8 +133,8 @@
                       <span v-else class="ml-1 opacity-30">▼</span>
                     </button>
                   </th>
-                  <th class="table-header w-1/6">
-                    <button class="flex items-center" @click="sort('transaction_date')">
+                  <th class="table-header">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort('transaction_date')">
                       วันที่
                       <span v-if="sortKey === 'transaction_date'" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -123,53 +145,60 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="fund in paginatedFunds" :key="fund.fundName" class="table-row hover:bg-gray-50"
+                <tr v-for="fund in paginatedFunds" :key="fund.fundName" class="table-row hover:bg-gray-50 text-sm"
                   @click="highlightRow">
                   <!-- Adjust the cell content to prevent overflow -->
                   <td class="py-3 px-4 font-medium text-blue-700 cursor-pointer hover:underline truncate"
-                    :title="fund.fund_name">
+                    @click="goToBuySell(fund.fund_name)" :title="fund.fund_name">
                     {{ fund.fund_name }}
                   </td>
-                  <td class="py-3 px-4">
+                  <td class="py-3 px-4 text-center">
                     <span :class="{
                       'bg-green-100 text-green-800': fund.transaction_type === 1,
                       'bg-red-100 text-red-800': fund.transaction_type === 2,
-                    }" class="py-1 px-2 rounded-full text-xs font-medium">
+                    }" class="py-1 px-2 rounded-full text-sm font-medium">
                       {{ transaction_type_str(fund.transaction_type) }}
                     </span>
                   </td>
                   <td class="py-3 px-4 text-right">
-                    <span :class="parseFloat(fund.gain_loss_percent) >= 0 ? 'text-green-600' : 'text-red-600'"
-                      class="font-medium">
-                      {{ parseFloat(fund.gain_loss_percent) >= 0 ? "+" : "" }}
-                      {{ parseFloat(fund.gain_loss_percent).toFixed(2) }}%
+                    <span :class="{
+                      'text-green-600': parseFloat(getNavByFundName(fund.fund_name, fund.processed_nav)) > 0,
+                      'text-red-600': parseFloat(getNavByFundName(fund.fund_name, fund.processed_nav)) < 0,
+                      'text-black-600': parseFloat(getNavByFundName(fund.fund_name, fund.processed_nav)) === 0
+                    }" class="font-medium">
+                      {{
+                        (parseFloat(getNavByFundName(fund.fund_name, fund.processed_nav)) > 0 ? "+" : "") +
+                        parseFloat(getNavByFundName(fund.fund_name, fund.processed_nav)).toLocaleString("th-TH", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2
+                        })
+                      }}
                     </span>
                   </td>
                   <td class="py-3 px-4 text-right font-mono">
                     {{
                       Number(fund.units_processed).toLocaleString("th-TH", {
-                        maximumFractionDigits: 4,
+                        minimumFractionDigits: 4, maximumFractionDigits: 4
                       })
                     }}
                   </td>
                   <td class="py-3 px-4 text-right font-mono">
                     {{
                       Number(fund.processed_nav).toLocaleString("th-TH", {
-                        maximumFractionDigits: 4,
+                        minimumFractionDigits: 4, maximumFractionDigits: 4
                       })
                     }}
                   </td>
-                  <td class="py-3 px-4 text-right font-mono money-cell">
-                    <span class="highlight-number">
+                  <td class="py-3 px-4 text-right font-mono">
+                    <span>
                       {{
                         Number(fund.amount_processed).toLocaleString("th-TH", {
-                          maximumFractionDigits: 2,
+                          minimumFractionDigits: 2, maximumFractionDigits: 2
                         })
                       }}
                     </span>
-                    ฿
                   </td>
-                  <td class="py-3 px-4">{{ formatDate(fund.transaction_date) }}</td>
+                  <td class="py-3 px-4 text-right">{{ formatDate(fund.transaction_date) }}</td>
                 </tr>
               </tbody>
             </table>
@@ -230,6 +259,7 @@ export default {
     return {
       isLoading: false,
       isSorting: false,
+      isNavigating: false,
       columns: [
         { key: "fund_name", label: "ชื่อกองทุน" },
         { key: "transaction_type", label: "ประเภทธุรกรรม" },
@@ -240,6 +270,8 @@ export default {
         { key: "transaction_date", label: "วันที่" },
       ],
       funds: [],
+      lastNav: [],
+      search: "",
       fundTypes: [
         "กองทุนรวมตลาดเงินในประเทศ",
         "กองทุนรวมตลาดเงินต่างประเทศ",
@@ -264,12 +296,20 @@ export default {
     filteredData() {
       let result = this.funds;
 
-      // If both start and end dates are selected, filter data based on date range
+      // Filter by search (fund name)
+      if (this.search && this.search.trim() !== '') {
+        const keyword = this.search.toLowerCase();
+        result = result.filter((item) =>
+          item.fund_name.toLowerCase().includes(keyword)
+        );
+      }
+
+      // Filter by date range
       if (this.dateRange.start && this.dateRange.end) {
         const startDate = new Date(this.dateRange.start);
         const endDate = new Date(this.dateRange.end);
-        startDate.setHours(0, 0, 0, 0); // Set the start date to the beginning of the day
-        endDate.setHours(23, 59, 59, 999); // Set the end date to the end of the day
+        startDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 999);
 
         result = result.filter((fund) => {
           const fundDate = new Date(fund.transaction_date);
@@ -279,6 +319,29 @@ export default {
 
       return result;
     },
+    // filteredName() {
+    //   return this.funds.filter((item) =>
+    //     item.fund_name.toLowerCase().includes(this.search.toLowerCase())
+    //   );
+    // },
+    // filteredData() {
+    //   let result = this.funds;
+
+    //   // If both start and end dates are selected, filter data based on date range
+    //   if (this.dateRange.start && this.dateRange.end) {
+    //     const startDate = new Date(this.dateRange.start);
+    //     const endDate = new Date(this.dateRange.end);
+    //     startDate.setHours(0, 0, 0, 0); // Set the start date to the beginning of the day
+    //     endDate.setHours(23, 59, 59, 999); // Set the end date to the end of the day
+
+    //     result = result.filter((fund) => {
+    //       const fundDate = new Date(fund.transaction_date);
+    //       return fundDate >= startDate && fundDate <= endDate;
+    //     });
+    //   }
+
+    //   return result;
+    // },
     sortedFunds() {
       const filtered = [...this.filteredData];
 
@@ -321,6 +384,24 @@ export default {
     },
   },
   methods: {
+    getNavByFundName(name, processed_nav) {
+      const fund = this.lastNav.find(f => f.fund_name === name);
+      let gl;
+      if (fund) {
+        gl = ((fund.nav / processed_nav) - 1.0) * 100.0;
+      }
+      return fund ? gl : null;
+    },
+    async goToBuySell(name) {
+      this.isNavigating = true;
+      try {
+        await this.$router.push(`/buy-sell?name=${name}`);
+      } catch (error) {
+        console.error("Navigation error:", error);
+      } finally {
+        this.isNavigating = false;
+      }
+    },
     transaction_type_str(type) {
       if (type == 1) return "ซื้อ";
       if (type == 2) return "ขาย";
@@ -365,6 +446,25 @@ export default {
     },
     resetDateRange() {
       this.dateRange = { start: null, end: null };
+    },
+    async fetchLastNav() {
+      try {
+        const response = await fetch(`/api/nav-history/latest`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched API data:", data);
+        this.lastNav = data;
+      } catch (error) {
+        console.error("Failed to fetch API data:", error);
+      }
     },
     async fetchData() {
       this.isLoading = true;
@@ -416,6 +516,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchLastNav();
     this.fetchData();
     // document.addEventListener("click", this.handleClickOutside);
   },

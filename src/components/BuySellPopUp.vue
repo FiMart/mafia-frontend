@@ -46,24 +46,26 @@
               <span class="tooltip-text">กรุณากรอกจำนวนเงินที่ต้องการลงทุน</span>
             </span>
           </label>
-          <input type="number" min="0" step="1" v-model.number="amount_processed" @input="onAmountInput"
-            @blur="formatAmount" class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
+          <input type="text" v-model="amount_processed" @focus="activeField = 'amount_processed'"
+            @input="(e) => { onAmountInput(e); calculateValues(); }" @blur="() => { activeField = ''; formatAmount(); }"
+            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
 
         </div>
 
         <!-- Price per Unit -->
         <div>
           <label class="block text-gray-700 font-medium mb-1">ราคาต่อหน่วย (บาท)</label>
-          <input type="number" min="0" step="0.0001" v-model.number="processed_nav" @input="onNavInput"
-            @blur="formatNav" class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
-
+          <input type="text" v-model="processed_nav" @focus="activeField = 'processed_nav'"
+            @input="(e) => { onNavInput(e); calculateValues(); }" @blur="() => { activeField = ''; formatNav(); }"
+            class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
         </div>
 
         <!-- Number of Units -->
         <div>
           <label class="block text-gray-700 font-medium mb-1">จำนวนหน่วย (หน่วย)</label>
-          <input type="number" min="0" step="0.0001" v-model="units_processed"
-            @input="validatePositiveDecimal($event, 'units_processed', 4)"
+          <input type="text" v-model="units_processed" @focus="activeField = 'units_processed'"
+            @input="(e) => { validatePositiveDecimal(e, 'units_processed', 4); calculateValues(); }"
+            @blur="() => { activeField = ''; formatUnits(); }"
             class="w-full p-3 border rounded-full text-right focus:ring-2 focus:ring-teal-500" />
         </div>
 
@@ -165,6 +167,7 @@ export default {
       amount_processed: "",
       processed_nav: "",
       units_processed: "",
+      activeField: '', // <-- add this
       transaction_date: new Date().toISOString().split("T")[0], // Default to current date
       hasData: false,
       isLoading: false,
@@ -200,15 +203,18 @@ export default {
     },
     amount_processed(val) {
       this.checkData();
-      this.calculateValues("amount_processed");
+      // this.calculateValues("amount_processed");
+      this.calculateValues();
     },
     processed_nav(val) {
       this.checkData();
-      this.calculateValues("processed_nav");
+      this.calculateValues();
+      // this.calculateValues("processed_nav");
     },
     units_processed(val) {
       this.checkData();
-      this.calculateValues("units_processed");
+      this.calculateValues();
+      // this.calculateValues("units_processed");
     },
     transaction_date(newDate) {
       this.checkData();
@@ -226,70 +232,90 @@ export default {
       val = val.replace(/[^\d.]/g, '');
 
       // แยกส่วนก่อนและหลังจุดทศนิยม
-      const parts = val.split('.');
+      let parts = val.split('.');
       if (parts.length > 2) {
         val = parts[0] + '.' + parts[1]; // ตัดจุดทศนิยมเกิน
+        parts = val.split('.'); // อัปเดต parts อีกครั้ง
       }
 
-      // ไม่ให้ขึ้นต้นด้วย 0 หลายตัว (เช่น 0004.23 → 4.23)
+      // ไม่ให้ขึ้นต้นด้วย 0 หลายตัว (แต่อนุญาต "0." และ ".5")
       if (parts[0]) {
-        parts[0] = String(Number(parts[0]));
+        parts[0] = parts[0].replace(/^0+(?=\d)/, '');
       }
 
-      // จำกัดทศนิยม
-      if (parts.length === 2) {
+      // จำกัดจำนวนทศนิยม
+      if (parts[1]) {
         parts[1] = parts[1].slice(0, decimalPlaces);
       }
 
-      // รวมกลับ
       val = parts.join('.');
 
-      // แปลงเป็นตัวเลขและเก็บไว้ใน data
-      this[field] = val === '' ? '' : parseFloat(val);
+      // อัปเดต input และ model โดยไม่ parse เป็น number ทันที
+      event.target.value = val;
+      this[field] = val;
     },
     onNavInput(e) {
-      // เอาเฉพาะตัวเลขกับจุดทศนิยม
       let val = e.target.value.replace(/[^\d.]/g, '');
-
-      // ป้องกันจุดทศนิยมซ้ำ
       const parts = val.split('.');
       if (parts.length > 2) {
-        val = parts[0] + '.' + parts[1]; // ตัดส่วนเกิน
+        val = parts[0] + '.' + parts[1];
       }
 
-      // ลบลบ (-)
-      if (val.startsWith('-')) {
-        val = val.replace('-', '');
+      parts[0] = parts[0].replace(/^0+(?=\d)/, '');
+
+      if (parts[1]) {
+        parts[1] = parts[1].slice(0, 4);
       }
+
+      val = parts.join('.');
 
       e.target.value = val;
-      this.processed_nav = parseFloat(val) || 0;
+      this.processed_nav = val;
+    },
+    formatUnits() {
+      const num = parseFloat(this.units_processed);
+      if (!isNaN(num)) {
+        this.units_processed = num.toFixed(4);
+      } else {
+        this.units_processed = '';
+      }
     },
     formatNav() {
       // format ให้มีทศนิยมสูงสุด 4 ตำแหน่ง
-      this.processed_nav = parseFloat(this.processed_nav).toFixed(4);
+      const num = parseFloat(this.processed_nav);
+      if (!isNaN(num)) {
+        this.processed_nav = num.toFixed(4);
+      } else {
+        // Clear or reset if input is invalid
+        this.processed_nav = '';
+      }
     },
     onAmountInput(e) {
-      // Remove any non-number characters (excluding dot)
-      const cleaned = e.target.value.replace(/[^\d.]/g, '');
+      let val = e.target.value;
+
+      // Remove non-digit and non-dot characters
+      val = val.replace(/[^\d.]/g, '');
 
       // Prevent multiple dots
-      const parts = cleaned.split('.');
+      const parts = val.split('.');
       if (parts.length > 2) {
-        e.target.value = parts[0] + '.' + parts[1];
+        val = parts[0] + '.' + parts[1]; // Keep only the first dot
       }
 
-      // Prevent negative
-      if (cleaned.startsWith('-')) {
-        e.target.value = cleaned.replace('-', '');
-      }
+      // Remove negative sign
+      val = val.replace(/^-/, '');
 
-      // Update the model
-      this.amount_processed = parseFloat(e.target.value) || 0;
+      // Set input field and model as-is (string)
+      e.target.value = val;
+      this.amount_processed = val;
     },
     formatAmount() {
-      // Limit to 2 decimal places
-      this.amount_processed = parseFloat(this.amount_processed).toFixed(2);
+      const num = parseFloat(this.amount_processed);
+      if (!isNaN(num)) {
+        this.amount_processed = num.toFixed(2);
+      } else {
+        this.amount_processed = '';
+      }
     },
     async fetchNAVData(fund, date) {
       if (!fund || !date) return;
@@ -320,6 +346,7 @@ export default {
           this.transactionType === "buy"
             ? this.nav_data.redemption_price
             : this.nav_data.selling_price;
+        this.activeField = 'processed_nav';
       }
     },
     checkData() {
@@ -446,26 +473,118 @@ export default {
         this[field] = numValue;
       }
     },
-    calculateValues(changedField) {
-      if (
-        changedField !== "units_processed" &&
-        this.amount_processed &&
-        this.processed_nav
-      ) {
-        this.units_processed = (
-          parseFloat(this.amount_processed) / parseFloat(this.processed_nav)
-        ).toFixed(4);
+    // calculateValues(changedField) {
+    //   const nav = parseFloat(this.processed_nav);
+    //   if (!nav || nav <= 0) return;
+
+    //   if (
+    //     changedField === "amount_processed" &&
+    //     this.amount_processed !== "" &&
+    //     !isNaN(parseFloat(this.amount_processed)) &&
+    //     this.activeField !== "units_processed" // <-- don't overwrite field being typed
+    //   ) {
+    //     const amount = parseFloat(this.amount_processed);
+    //     const units = amount / nav;
+    //     this.units_processed = units.toFixed(4);
+    //   }
+
+    //   if (
+    //     changedField === "units_processed" &&
+    //     this.units_processed !== "" &&
+    //     !isNaN(parseFloat(this.units_processed)) &&
+    //     this.activeField !== "amount_processed" // <-- same here
+    //   ) {
+    //     const units = parseFloat(this.units_processed);
+    //     const amount = units * nav;
+    //     this.amount_processed = amount.toFixed(2);
+    //   }
+    // },
+    // calculateValues() {
+    //   const nav = parseFloat(this.processed_nav);
+    //   const amount = parseFloat(this.amount_processed);
+    //   const units = parseFloat(this.units_processed);
+
+    //   if (!nav || nav <= 0) return;
+
+    //   const hasAmount = this.amount_processed !== '' && !isNaN(amount);
+    //   const hasUnits = this.units_processed !== '' && !isNaN(units);
+
+    //   // Case 1: amount + nav → calculate units (but not if user is typing units)
+    //   if (hasAmount && !hasUnits && this.activeField !== 'units_processed') {
+    //     this.units_processed = (amount / nav).toFixed(4);
+    //     return;
+    //   }
+
+    //   // Case 2: units + nav → calculate amount (but not if user is typing amount)
+    //   if (hasUnits && !hasAmount && this.activeField !== 'amount_processed') {
+    //     this.amount_processed = (units * nav).toFixed(2);
+    //     return;
+    //   }
+
+    //   // Case 3: all 3 fields filled → update whichever is not being typed
+    //   if (hasAmount && hasUnits) {
+    //     if (this.activeField === 'amount_processed') {
+    //       this.units_processed = (amount / nav).toFixed(4);
+    //     } else if (this.activeField === 'units_processed') {
+    //       this.amount_processed = (units * nav).toFixed(2);
+    //     }
+    //   }
+    // },
+    calculateValues() {
+      const nav = parseFloat(this.processed_nav);
+      const amount = parseFloat(this.amount_processed);
+      const units = parseFloat(this.units_processed);
+
+      if (!nav || nav <= 0) return;
+
+      const hasAmount = this.amount_processed !== '' && !isNaN(amount);
+      const hasUnits = this.units_processed !== '' && !isNaN(units);
+
+      // If user is editing NAV, calculate whichever field can be inferred
+      if (this.activeField === 'processed_nav') {
+        if (hasUnits && !hasAmount) {
+          this.amount_processed = (units * nav).toFixed(2);
+          return;
+        }
+
+        if (hasAmount && !hasUnits) {
+          this.units_processed = (amount / nav).toFixed(4);
+          return;
+        }
+
+        // If both amount & units are filled, update the one not focused
+        if (hasAmount && hasUnits) {
+          if (this.activeField !== 'units_processed') {
+            this.units_processed = (amount / nav).toFixed(4);
+          }
+          else if (this.activeField !== 'amount_processed') {
+            this.amount_processed = (units * nav).toFixed(2);
+          }
+        }
+
+        return;
       }
-      if (
-        changedField !== "amount_processed" &&
-        this.units_processed &&
-        this.processed_nav
-      ) {
-        this.amount_processed = (
-          parseFloat(this.units_processed) * parseFloat(this.processed_nav)
-        ).toFixed(2);
+
+      // Normal logic when editing amount or units
+      if (hasAmount && !hasUnits && this.activeField !== 'units_processed') {
+        this.units_processed = (amount / nav).toFixed(4);
+        return;
       }
-    },
+
+      if (hasUnits && !hasAmount && this.activeField !== 'amount_processed') {
+        this.amount_processed = (units * nav).toFixed(2);
+        return;
+      }
+
+      if (hasAmount && hasUnits) {
+        if (this.activeField === 'amount_processed') {
+          this.units_processed = (amount / nav).toFixed(4);
+        } else if (this.activeField === 'units_processed') {
+          this.amount_processed = (units * nav).toFixed(2);
+        }
+      }
+    }
+
   },
 };
 </script>

@@ -173,8 +173,8 @@
                 <div class="grid grid-cols-1 gap-4">
                   <div>
                     <label class="text-gray-600 font-bold">รายได้ต่อเดือน</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.monthly_income"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.monthly_income"
                       :placeholder="taxInfo?.monthly_income || 'กรุณากรอกข้อมูล'" />
                   </div>
                   <!-- <div>
@@ -185,8 +185,9 @@
                   </div> -->
                   <div>
                     <label class="text-gray-600 font-bold">โบนัส</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.bonus_income" :placeholder="taxInfo?.bonus_income || 'กรุณากรอกข้อมูล'" />
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.bonus_income"
+                      :placeholder="taxInfo?.bonus_income || 'กรุณากรอกข้อมูล'" />
                   </div>
                   <!-- <div>
                     <label class="text-gray-600 font-bold"
@@ -196,8 +197,8 @@
                   </div> -->
                   <div>
                     <label class="text-gray-600 font-bold">รายได้อื่น ๆ</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.additional_income"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.additional_income"
                       :placeholder="taxInfo?.additional_income || 'กรุณากรอกข้อมูล'" />
                   </div>
                   <!-- <div>
@@ -227,8 +228,8 @@
                     <!-- ✅ ค่าฝากครรภ์และคลอดบุตร -->
                     <div>
                       <label class="text-gray-600 font-bold">ค่าฝากครรภ์และคลอดบุตร</label>
-                      <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                        v-model="tax_info2025.prenatal_expense"
+                      <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                        class="input-field" v-model="tax_info2025.prenatal_expense"
                         :placeholder="taxInfo?.prenatal_deduction || 'กรุณากรอกข้อมูล'" />
                     </div>
                   </div>
@@ -253,15 +254,14 @@
                     <div>
                       <label class="px-1 text-white-600 font-bold">จำนวนบุตร</label>
                       <input v-model="totalChildren" type="number" min="0" @keydown="allowOnlyNumericAndDecimal"
-                      @paste="checkPaste" class="text-gray-600 input-field" placeholder="0" />
+                        @paste="checkPaste" class="text-gray-600 input-field" placeholder="0" />
                     </div>
 
                     <!-- ✅ จำนวนบุตรที่เกิดหลังปี 2567 -->
                     <div>
                       <label class="px-1 text-white-600 font-bold">บุตรเกิดหลังปี 2567</label>
                       <input v-model="childrenAfter2018" type="number" min="0" @keydown="allowOnlyNumericAndDecimal"
-                      @paste="checkPaste" class="text-gray-600 input-field"
-                        placeholder="0" />
+                        @paste="checkPaste" class="text-gray-600 input-field" placeholder="0" />
                     </div>
 
                     <!-- ✅ จำนวนบุตรบุญธรรม -->
@@ -280,8 +280,8 @@
                   <!-- ✅ จำนวนพ่อแม่ที่ดูแล -->
                   <div>
                     <label class="text-gray-600 font-bold">จำนวนพ่อแม่ที่ดูแล</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.number_of_parents" placeholder="0" />
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.number_of_parents" placeholder="0" />
                   </div>
                   <!-- <div>
                     <label class="text-gray-600 font-bold">ลดหย่อนภาษีจากพ่อแม่</label>
@@ -319,8 +319,8 @@
                   <!-- ✅ ประกันชีวิต -->
                   <div>
                     <label class="text-gray-600 font-bold">เบี้ยประกันชีวิต</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.general_life_insurance"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.general_life_insurance"
                       :placeholder="taxInfo?.general_life_insurance || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 100,000 บาท</p>
                   </div>
@@ -328,8 +328,8 @@
                   <!-- ✅ ประกันสุขภาพ -->
                   <div>
                     <label class="text-gray-600 font-bold">เบี้ยประกันสุขภาพ</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.self_life_insurance"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.self_life_insurance"
                       :placeholder="taxInfo?.self_life_insurance || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 25,000 บาท</p>
                   </div>
@@ -337,16 +337,16 @@
                   <!-- ✅ ประกันสุขภาพพ่อแม่ -->
                   <div>
                     <label class="text-gray-600 font-bold">เบี้ยประกันสุขภาพพ่อแม่</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.parent_life_insurance"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.parent_life_insurance"
                       :placeholder="taxInfo?.parent_life_insurance || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 15,000 บาท</p>
                   </div>
                   <!-- ✅ ประกันบำนาญ -->
                   <div>
                     <label class="text-gray-600 font-bold">เบี้ยประกันบำนาญ</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.pension_life_insurance"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.pension_life_insurance"
                       :placeholder="taxInfo?.pension_life_insurance || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 200,000 บาท</p>
                   </div>
@@ -361,16 +361,17 @@
                   <!-- ✅ ช้อปดีมีคืน (Easy Receipt) -->
                   <div>
                     <label class="text-gray-600 font-bold">ช้อปดีมีคืน (Easy Receipt)</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.easy_receipt" :placeholder="taxInfo?.easy_receipt || 'กรุณากรอกข้อมูล'" />
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.easy_receipt"
+                      :placeholder="taxInfo?.easy_receipt || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 50,000 บาท</p>
                   </div>
 
                   <!-- ✅ ดอกเบี้ยบ้าน -->
                   <div>
                     <label class="text-gray-600 font-bold">ดอกเบี้ยสินเชื่อบ้าน</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.housing_interest"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.housing_interest"
                       :placeholder="taxInfo?.housing_interest || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 100,000 บาท</p>
                   </div>
@@ -378,8 +379,9 @@
                   <!-- ✅ ซื้อบ้านใหม่ -->
                   <div>
                     <label class="text-gray-600 font-bold">ค่าซื้อบ้านใหม่</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.new_house_cost" :placeholder="taxInfo?.new_housing || 'กรุณากรอกข้อมูล'" />
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.new_house_cost"
+                      :placeholder="taxInfo?.new_housing || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 200,000 บาท</p>
                   </div>
                 </div>
@@ -393,8 +395,8 @@
                   <!-- ✅ บริจาคทั่วไป -->
                   <div>
                     <label class="text-gray-600 font-bold">เงินบริจาคทั่วไป</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.general_donation"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.general_donation"
                       :placeholder="taxInfo?.general_donation || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 50,000 บาท</p>
                   </div>
@@ -402,8 +404,8 @@
                   <!-- ✅ บริจาคเพื่อการศึกษา -->
                   <div>
                     <label class="text-gray-600 font-bold">เงินบริจาคเพื่อการศึกษา</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.education_donation"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.education_donation"
                       :placeholder="taxInfo?.education_donation || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้สูงสุด 15,000 บาท</p>
                   </div>
@@ -417,24 +419,25 @@
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label class="text-gray-600 font-bold">วิสาหกิจเพื่อสังคม</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.social_enterprise"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.social_enterprise"
                       :placeholder="taxInfo?.pension_fund || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้ตามที่จ่ายจริง</p>
                   </div>
                   <!-- ✅ GPF -->
                   <div>
                     <label class="text-gray-600 font-bold">กองทุนบำเหน็จบำนาญข้าราชการ (GPF)</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.pension_fund" :placeholder="taxInfo?.pension_fund || 'กรุณากรอกข้อมูล'" />
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.pension_fund"
+                      :placeholder="taxInfo?.pension_fund || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้ตามที่จ่ายจริง</p>
                   </div>
 
                   <!-- ✅ PVD -->
                   <div>
                     <label class="text-gray-600 font-bold">กองทุนสำรองเลี้ยงชีพ (PVD)</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.provident_fund"
+                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.provident_fund"
                       :placeholder="taxInfo?.provident_fund || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้ตามที่จ่ายจริง</p>
                   </div>
@@ -450,8 +453,8 @@
                   <!-- ✅ NSF -->
                   <div>
                     <label class="text-gray-600 font-bold">กองทุนการออมแห่งชาติ (NSF)</label>
-                    <input type="number" min="0" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste" class="input-field"
-                      v-model="tax_info2025.national_saving_fund"
+                    <input type="number" min="0" step="0.01" @keydown="allowOnlyNumericAndDecimal" @paste="checkPaste"
+                      class="input-field" v-model="tax_info2025.national_saving_fund"
                       :placeholder="taxInfo?.national_saving_fund || 'กรุณากรอกข้อมูล'" />
                     <p class="text-sm text-gray-500 mt-1">ลดหย่อนได้ตามที่จ่ายจริง</p>
                   </div>
@@ -475,13 +478,19 @@
                   <!-- ประหยัดภาษีได้ -->
                   <div>
                     <label class="text-gray-600 font-bold">เงินได้รวม</label>
-                    <p class="output-field">{{ formatNumber(taxInfo.total_income) }} บาท</p>
+                    <p class="output-field">{{ formatNumber(taxInfo.total_income.toLocaleString("th-TH", {
+                      minimumFractionDigits:
+                        2, maximumFractionDigits: 2
+                    })) }} บาท</p>
                     <!-- <p class="text-sm text-gray-500 mt-2">ของยอดลดหย่อน</p> -->
                   </div>
                   <!-- ยอดรวมการลดหย่อนปัจจุบัน -->
                   <div>
                     <label class="text-gray-600 font-bold">ยอดรวมการลดหย่อนปัจจุบัน</label>
-                    <p class="output-field">{{ formatNumber(taxInfo.total_deduction) }} บาท</p>
+                    <p class="output-field">{{ formatNumber(taxInfo.total_deduction.toLocaleString("th-TH", {
+                      minimumFractionDigits:
+                        2, maximumFractionDigits: 2
+                    })) }} บาท</p>
                     <!-- <div class="mt-2 bg-gray-200 rounded-full h-2">
                       <div class="bg-teal-500 h-2 rounded-full transition-all duration-1000" :style="{
                         width: ``,
@@ -492,14 +501,20 @@
                   <!-- เป้าหมายการลดหย่อน -->
                   <div>
                     <label class="text-gray-600 font-bold">เงินได้สุทธิ</label>
-                    <p class="output-field">{{ formatNumber(taxInfo.taxable_income) }} บาท</p>
+                    <p class="output-field">{{ formatNumber(taxInfo.taxable_income.toLocaleString("th-TH", {
+                      minimumFractionDigits:
+                        2, maximumFractionDigits: 2
+                    })) }} บาท</p>
                     <!-- <p class="text-sm text-gray-500 mt-2">เหลืออีก ฿</p> -->
                   </div>
 
                   <!-- ประหยัดภาษีได้ -->
                   <div>
                     <label class="text-gray-600 font-bold">ภาษีที่ต้องจ่าย</label>
-                    <p class="output-field">{{ formatNumber(usertax) }} บาท</p>
+                    <p class="output-field">{{ formatNumber(usertax.toLocaleString("th-TH", {
+                      minimumFractionDigits:
+                        2, maximumFractionDigits: 2
+                    })) }} บาท</p>
                     <!-- <p class="text-sm text-gray-500 mt-2">ของยอดลดหย่อน</p> -->
                   </div>
                 </div>
@@ -904,6 +919,12 @@ export default {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
+        localStorage.setItem('marital_status', this.tax_info2025.marital_status);
+        localStorage.setItem('children', this.totalChildren);
+        localStorage.setItem('childernAfter2018', this.childrenAfter2018);
+        localStorage.setItem('adoptedChildren', this.adoptedChildren);
+        localStorage.setItem('number_of_parents', this.tax_info2025.number_of_parents);
+        localStorage.setItem('has_disabled_person', this.tax_info2025.has_disabled_person);
         this.toast.success("บันทึกข้อมูลภาษีเรียบร้อย!", {
           timeout: 1000,
           position: "top-center",
@@ -970,9 +991,17 @@ export default {
     try {
       // Simulate loading profile data
       // await new Promise(resolve => setTimeout(resolve, 1000));
-      this.fetchData();
-      this.fetchTaxInfo();
-      this.fetchTaxGoal();
+      await this.fetchData();
+      await this.fetchTaxInfo();
+      await this.fetchTaxGoal();
+      this.tax_info2025.prenatal_expense = parseFloat(this.taxInfo.prenatal_deduction);
+      this.totalChildren = parseInt(localStorage.getItem('children')) || 0;
+      this.childrenAfter2018 = parseInt(localStorage.getItem('childernAfter2018')) || 0;
+      this.adoptedChildren = parseInt(localStorage.getItem('adoptedChildren')) || 0;
+
+      this.tax_info2025.number_of_parents = parseInt(localStorage.getItem('number_of_parents')) || 0;
+      this.tax_info2025.has_disabled_person = localStorage.getItem('has_disabled_person') === 'true';
+      this.tax_info2025.marital_status = localStorage.getItem('marital_status') || 'single';
       // Add your profile loading logic here
     } catch (error) {
       console.error("Error loading profile:", error);

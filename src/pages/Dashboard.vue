@@ -249,19 +249,19 @@
                 <tr class="bg-gray-50 border-b">
                   <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700 w-1/3">
                     <div class="flex items-center space-x-2">
-                      <div class="w-1.5 h-6 bg-green-500 rounded-full"></div>
+                      <!-- <div class="w-1.5 h-6 bg-green-500 rounded-full"></div> -->
                       <span>กองทุน</span>
                     </div>
                   </th>
                   <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700 w-1/3">
                     <div class="flex items-center space-x-2">
-                      <div class="w-1.5 h-6 bg-blue-500 rounded-full"></div>
+                      <!-- <div class="w-1.5 h-6 bg-blue-500 rounded-full"></div> -->
                       <span>แนวโน้ม</span>
                     </div>
                   </th>
                   <th class="px-5 py-4 text-left text-sm font-semibold text-gray-700 w-1/3">
                     <div class="flex items-center space-x-2">
-                      <div class="w-1.5 h-6 bg-purple-500 rounded-full"></div>
+                      <!-- <div class="w-1.5 h-6 bg-purple-500 rounded-full"></div> -->
                       <span>แนะนำ</span>
                     </div>
                   </th>
@@ -284,9 +284,9 @@
                   <td class="px-5 py-5">
                     <span :class="[
                       'px-4 py-2 rounded-full text-xs font-medium inline-flex items-center shadow-sm',
-                      item.trend.includes('ขึ้น')
-                        ? 'bg-gradient-to-r from-green-500 to-green-400 text-white'
-                        : 'bg-gradient-to-r from-yellow-500 to-yellow-400 text-white',
+                      item.trend.includes('ยังไม่มี')
+                        ? 'bg-gradient-to-r from-yellow-500 to-yellow-400 text-white'
+                        : 'bg-gradient-to-r from-green-500 to-green-400 text-white',
                     ]">
                       <span v-if="item.trend.includes('ขึ้น')" class="mr-1.5 text-sm">↑</span>
                       <span v-else class="mr-1.5 text-sm">→</span>
@@ -370,6 +370,7 @@ export default {
       years: this.generateYears(6),
       apiData: [],
       totalAsset: 0,
+      totalCost: 0,
       totalReturn_value: 0,
       totalReturn: 0,
 
@@ -434,7 +435,9 @@ export default {
         };
       });
     },
-
+    totalCostComputed(){
+      return this.apiData.reduce((sum, fund) => sum + fund.cost, 0);
+    },
     // รวมมูลค่า asset
     totalAssetComputed() {
       return this.apiData.reduce((sum, fund) => sum + fund.holding_value, 0);
@@ -460,11 +463,13 @@ export default {
           groups[type] = {
             fund_type: type,
             fundCount: 0,
+            cost: 0,
             amount: 0,
             percentageValue: 0,
           };
         }
         groups[type].fundCount += 1;
+        groups[type].cost += fund.cost;
         groups[type].amount += fund.holding_value;
         groups[type].percentageValue += fund.gain_loss_value;
       });
@@ -476,7 +481,7 @@ export default {
 
         // Calculate return percentage
         const returnPercentage =
-          group.amount > 0 ? (group.percentageValue / group.amount) * 100 : 0;
+          group.amount > 0 ? (group.percentageValue / group.cost) * 100 : 0;
 
         return {
           ...group,
@@ -522,10 +527,13 @@ export default {
     totalAssetComputed(newVal) {
       this.totalAsset = newVal;
     },
+    totalCostComputed(newVal) {
+      this.totalCost = newVal;
+    },
     totalReturnComputed(newVal) {
       this.totalReturn_value = newVal;
-      if (this.totalAsset !== 0) {
-        this.totalReturn = (newVal / this.totalAsset) * 100;
+      if (this.totalCost !== 0) {
+        this.totalReturn = (newVal / this.totalCost) * 100;
       } else {
         this.totalReturn = 0;
       }

@@ -18,7 +18,7 @@
 
       <!-- Filters Section with improved layout -->
       <div class="mb-6 bg-white p-5 rounded-lg shadow-sm border border-gray-200">
-        <h2 class="text-lg font-medium text-gray-800 mb-3">ตัวกรองข้อมูล</h2>
+        <h2 class="text-sm font-medium text-gray-800 mb-3">ตัวกรองข้อมูล</h2>
 
         <!-- <div class="space-y-4"> -->
         <!-- Fund Type Checkboxes -->
@@ -52,6 +52,19 @@
             </label>
           </div>
         </div>
+
+        <!-- Search Input -->
+        <div class="relative w-full max-w-xs mt-3">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input type="text" placeholder="ค้นหากองทุน" v-model="search"
+            class="w-full py-1.5 pl-9 pr-3 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white border border-gray-200 text-gray-700 placeholder-gray-400 text-sm" />
+        </div>
         <!-- </div> -->
       </div>
 
@@ -70,7 +83,7 @@
               <thead>
                 <tr>
                   <th v-for="column in columns" :key="column.key" class="table-header">
-                    <button class="flex items-center" @click="sort(column.key)">
+                    <button class="flex items-center justify-center w-full text-sm" @click="sort(column.key)">
                       {{ column.label }}
                       <span v-if="sortKey === column.key" class="ml-1 sort-icon">
                         {{ sortOrder === 1 ? "▼" : "▲" }}
@@ -81,34 +94,67 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="fund in paginatedFunds" :key="fund.fund_name" class="table-row hover:bg-gray-50"
+                <tr v-for="fund in paginatedFunds" :key="fund.fund_name" class="table-row hover:bg-gray-50 text-sm"
                   @click="highlightRow">
                   <td class="py-3 px-4 font-medium text-blue-700 cursor-pointer hover:underline truncate"
-                    :title="fund.fund_name">
+                    :title="fund.fund_name" @click="goToBuySell(fund.fund_name)">
                     {{ fund.fund_name }}
                   </td>
-                  <td class="py-3 px-4 text-right font-medium"
-                    :class="fund.gain_loss_value >= 0 ? 'text-green-600' : 'text-red-600'">
-                    {{ fund.gain_loss_value >= 0 ? "+" : "" }}{{ Number(fund.gain_loss_value).toLocaleString("th-TH") }}
+                  <td class="py-3 px-4 text-right font-medium" :class="{
+                    'text-green-600': parseFloat(fund.gain_loss_percent) > 0,
+                    'text-red-600': parseFloat(fund.gain_loss_percent) < 0,
+                    'text-black': parseFloat(fund.gain_loss_percent) === 0
+                  }">
+                    {{
+                      (parseFloat(fund.gain_loss_percent) > 0 ? "+" : "") +
+                      parseFloat(fund.gain_loss_percent).toLocaleString("th-TH", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })
+                    }}
+                  </td>
+                  <td class="py-3 px-4 text-right font-medium" :class="{
+                    'text-green-600': fund.gain_loss_value > 0,
+                    'text-red-600': fund.gain_loss_value < 0,
+                    'text-black': fund.gain_loss_value === 0
+                  }">
+                    {{
+                      (parseFloat(fund.gain_loss_value) > 0 ? "+" : "") +
+                      parseFloat(fund.gain_loss_value).toLocaleString("th-TH", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                      })
+                    }}
                   </td>
                   <td class="py-3 px-4 text-right font-mono money-cell">
-                    <span class="highlight-number">{{ Number(fund.holding_value).toLocaleString("th-TH") }}</span> ฿
+                    <span class="highlight-number">{{ Number(fund.holding_value).toLocaleString("th-TH", {
+                      minimumFractionDigits: 2, maximumFractionDigits: 2
+                    }) }}</span>
+                  </td>
+                  <td class="py-3 px-4 text-right font-mono money-cell">
+                    <span class="highlight-number">{{ Number(fund.cost).toLocaleString("th-TH", {
+                      minimumFractionDigits:
+                        2, maximumFractionDigits: 2
+                    }) }}</span>
                   </td>
                   <td class="py-3 px-4 text-right font-mono">
-                    {{ Number(fund.holding_units).toLocaleString("th-TH", { maximumFractionDigits: 4 }) }}
+                    {{ Number(fund.holding_units).toLocaleString("th-TH", {
+                      minimumFractionDigits: 4,
+                      maximumFractionDigits: 4
+                    }) }}
                   </td>
                   <td class="py-3 px-4 text-right font-mono money-cell">
-                    <span class="highlight-number">{{ Number(fund.cost).toLocaleString("th-TH") }}</span> ฿
-                  </td>
-                  <td class="py-3 px-4 text-right font-medium"
-                    :class="parseFloat(fund.gain_loss_percent) >= 0 ? 'text-green-600' : 'text-red-600'">
-                    {{ parseFloat(fund.gain_loss_percent) >= 0 ? "+" : "" }}{{ fund.gain_loss_percent }}
-                  </td>
-                  <td class="py-3 px-4 text-right font-mono money-cell">
-                    <span class="highlight-number">{{ Number(fund.present_nav).toLocaleString("th-TH") }}</span> ฿
+                    {{ Number(fund.present_nav).toLocaleString("th-TH", {
+                      minimumFractionDigits: 4,
+                      maximumFractionDigits: 4
+                    }) }}
+                    <!-- <span class="highlight-number">{{ Number(fund.present_nav).toLocaleString("th-TH") }}</span> ฿ -->
                   </td>
                   <td class="py-3 px-4 text-right font-mono">
-                    {{ Number(fund.nav_average).toLocaleString("th-TH", { maximumFractionDigits: 4 }) }}
+                    {{ Number(fund.nav_average).toLocaleString("th-TH", {
+                      minimumFractionDigits: 4,
+                      maximumFractionDigits: 4
+                    }) }}
                   </td>
                 </tr>
               </tbody>
@@ -161,6 +207,9 @@
 import { ref, computed, onMounted } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Loading from "@/components/Loading.vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 // Add loading states
 const isLoading = ref(true);
@@ -168,16 +217,16 @@ const isSorting = ref(false);
 
 const columns = [
   { key: "fund_name", label: "ชื่อกองทุน" },
-  { key: "gain_loss_value", label: "GL" },
-  { key: "holding_value", label: "มูลค่าปัจจุบัน" },
-  { key: "holding_units", label: "จำนวนที่ถือ" },
-  { key: "cost", label: "ต้นทุน" },
-  { key: "gain_loss_percent", label: "%GL" },
-  { key: "present_nav", label: "มูลค่าหน่วยลงทุนปัจจุบัน" },
-  { key: "nav_average", label: "มูลค่าหน่วยลงทุนเฉลี่ย" },
+  { key: "gain_loss_percent", label: "Gain/Loss (%)" },
+  { key: "gain_loss_value", label: "Gain/Loss (บาท)" },
+  { key: "holding_value", label: "มูลค่าปัจจุบัน (บาท)" },
+  { key: "cost", label: "ต้นทุน (บาท)" },
+  { key: "holding_units", label: "จำนวนหน่วยที่ถือ" },
+  { key: "present_nav", label: "NAV ปัจจุบัน (บาท)" },
+  { key: "nav_average", label: "NAV ต้นทุน (บาท)" },
 ];
 
-const fundTypes = ["RMF", "SSF", "ThaiESG"];
+const fundTypes = ["RMF", "SSF", "THAIESG"];
 const selectedFundTypes = ref("ทั้งหมด");  // Default is "ทั้งหมด"
 
 const funds = ref([]);
@@ -188,6 +237,7 @@ const perPage = ref(10);
 const sortKey = ref("fund_name");
 const sortOrder = ref(1);
 
+
 // Retrieve JWT token and username from localStorage
 const authToken = localStorage.getItem("jwtToken");
 const username = localStorage.getItem("username");
@@ -195,6 +245,18 @@ const username = localStorage.getItem("username");
 // API Endpoint
 const apiUrl = `/api/portfolio/user/${username}`;
 
+const search = ref('');
+
+const goToBuySell = async (name) => {
+  var isNavigating = true;
+  try {
+    await router.push(`/buy-sell?name=${name}`);
+  } catch (error) {
+    console.error("Navigation error:", error);
+  } finally {
+    isNavigating = false;
+  }
+}
 // Fetch API Data
 const fetchPortfolio = async () => {
   if (!authToken) {
@@ -229,17 +291,41 @@ const fetchPortfolio = async () => {
 onMounted(fetchPortfolio);
 
 // Filter the funds based on selected filters
-const filterFunds = (fund) => {
-  // Filter by selected fund types
-  const matchesFundType =
-    selectedFundTypes.value === "ทั้งหมด" ||  // If "ทั้งหมด" is selected, show all
-    selectedFundTypes.value === fund.fund_type;  // Compare fund's type to selected type
+// const filterFunds = (fund) => {
+//   if (search && search.trim() !== '') {
+//     const keyword = search.toLowerCase();
+//     result = result.filter((item) =>
+//       item.fund_name.toLowerCase().includes(keyword)
+//     );
+//   }
+//   // Filter by selected fund types
+//   const matchesFundType =
+//     selectedFundTypes.value === "ทั้งหมด" ||  // If "ทั้งหมด" is selected, show all
+//     selectedFundTypes.value === fund.fund_type;  // Compare fund's type to selected type
 
-  return matchesFundType;
+//   return matchesFundType;
+// };
+
+const filterFunds = (fund) => {
+  const keyword = search.value.toLowerCase().trim();
+
+  const matchesSearch =
+    !keyword || fund.fund_name.toLowerCase().includes(keyword);
+
+  const matchesFundType =
+    selectedFundTypes.value === "ทั้งหมด" ||
+    fund.fund_type === selectedFundTypes.value;
+
+  return matchesSearch && matchesFundType;
 };
 
+
+const filteredFunds = computed(() => {
+  return funds.value.filter(filterFunds);
+});
 // Filtered and sorted funds
 const filteredAndSortedFunds = computed(() => {
+
   let result = [...funds.value];
 
   // Apply the filter

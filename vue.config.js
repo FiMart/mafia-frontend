@@ -6,7 +6,7 @@ module.exports = defineConfig({
     port: 8081,
     proxy: {
       '/api': {
-        target: 'http://mafia_backend-app-1:5000',
+        target: 'http://mafia_backend_app:5000',
         changeOrigin: true,
         secure: false, 
       }

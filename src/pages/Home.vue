@@ -46,23 +46,14 @@
 
           <!-- Funds grid section -->
           <div class="overflow-hidden px-1">
-            <div
-              class="flex transition-transform duration-500 ease-in-out"
-              :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
-            >
-              <div
-                v-for="(chunk, chunkIndex) in chunkedFunds"
-                :key="chunkIndex"
-                class="w-full flex-shrink-0"
-              >
+            <div class="flex transition-transform duration-500 ease-in-out"
+              :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
+              <div v-for="(chunk, chunkIndex) in chunkedFunds" :key="chunkIndex" class="w-full flex-shrink-0">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <!-- Simplified Fund Cards -->
-                  <div
-                    v-for="fund in chunk"
-                    :key="fund.fund_name"
+                  <div v-for="fund in chunk" :key="fund.fund_name"
                     class="bg-white rounded-lg p-3 border border-gray-200 hover:border-green-500"
-                    @click="goToBuySell(fund.fund_name)"
-                  >
+                    @click="goToBuySell(fund.fund_name)">
                     <!-- Fund Header -->
                     <div class="flex justify-between items-start mb-2">
                       <div>
@@ -73,10 +64,7 @@
                           ระยะเวลา: {{ getPeriodText(fund.used_period) }}
                         </p>
                       </div>
-                      <span
-                        class="px-1.5 py-0.5 text-xs font-medium rounded"
-                        :class="getRiskClass(fund.fund_risk)"
-                      >
+                      <span class="px-1.5 py-0.5 text-xs font-medium rounded" :class="getRiskClass(fund.fund_risk)">
                         ความเสี่ยง {{ fund.fund_risk }}
                       </span>
                     </div>
@@ -85,10 +73,7 @@
                     <div class="grid grid-cols-3 gap-2 mt-2">
                       <div class="border border-gray-100 rounded p-2 bg-gray-50">
                         <p class="text-xs text-white mb-1">ผลตอบแทน</p>
-                        <p
-                          :class="fund.roc >= 0 ? 'text-white' : 'text-white'"
-                          class="font-medium"
-                        >
+                        <p :class="fund.roc >= 0 ? 'text-white' : 'text-white'" class="font-medium">
                           {{ fund.roc >= 0 ? "+" : "" }}{{ fund.roc.toFixed(2) }}%
                         </p>
                       </div>
@@ -150,9 +135,9 @@
         <div class="overflow-hidden rounded-xl border border-gray-200 shadow-lg bg-white">
           <table v-if="!isLoading" class="w-full">
             <thead>
-              <tr class="bg-green-500 text-white">
+              <tr class="bg-green-500 text-white text-sm">
                 <th v-for="(header, key) in headers" :key="key" class="py-2 px-3 text-xs font-medium text-left">
-                  <span class="cursor-pointer flex items-center" @click="sort(key)">
+                  <span class="cursor-pointer flex items-center justify-center w-full text-sm" @click="sort(key)">
                     {{ header }}
                     <span v-if="sortKey === key" class="ml-1 inline-block">
                       {{ sortOrder === 1 ? "▲" : "▼" }}
@@ -167,19 +152,30 @@
                   class="py-2 px-3 cursor-pointer hover:text-green-600 font-medium">
                   {{ item.fund_name }}
                 </td>
-                <td class="py-2 px-3">
-                  <span class="px-1.5 py-0.5 rounded text-xs font-medium" :class="getRiskClass(item.fund_risk)">
+                <td class="py-2 px-3 text-center text-sm font-medium">
+                  <span class="px-1.5 py-0.5 rounded" :class="getRiskClass(item.fund_risk)">
                     {{ item.fund_risk }}
                   </span>
                 </td>
-                <td class="py-2 px-3 text-right">{{ item.one_year_roc || "-" }}%</td>
-                <td class="py-2 px-3 text-right">{{ item.five_year_roc || "-" }}%</td>
-                <td class="py-2 px-3 text-right">{{ item.ten_year_roc || "-" }}%</td>
-                <td class="py-2 px-3 text-right">
-                  {{ item.std_one_year || "-" }}
+                <td class="py-2 px-3 text-right text-sm">{{ item.one_year_roc.toLocaleString("th-TH", {
+                  minimumFractionDigits: 2, maximumFractionDigits: 2
+                }) || "-" }}</td>
+                <td class="py-2 px-3 text-right text-sm">{{ item.five_year_roc.toLocaleString("th-TH", {
+                  minimumFractionDigits: 2, maximumFractionDigits: 2
+                }) || "-" }}</td>
+                <td class="py-2 px-3 text-right text-sm">{{ item.ten_year_roc.toLocaleString("th-TH", {
+                  minimumFractionDigits: 2, maximumFractionDigits: 2
+                }) || "-" }}</td>
+                <td class="py-2 px-3 text-right text-sm">
+                  {{ item.std_one_year.toLocaleString("th-TH", {
+                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                  }) || "-" }}
                 </td>
-                <td class="py-2 px-3 text-right font-medium" :class="getSharpRatioClass(item.sharpe_ratio_one_year)">
-                  {{ item.sharpe_ratio_one_year || "-" }}
+                <td class="py-2 px-3 text-right font-medium text-sm"
+                  :class="getSharpRatioClass(item.sharpe_ratio_one_year)">
+                  {{ item.sharpe_ratio_one_year.toLocaleString("th-TH", {
+                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                  }) || "-" }}
                 </td>
               </tr>
             </tbody>
